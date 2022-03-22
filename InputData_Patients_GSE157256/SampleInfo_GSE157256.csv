@@ -1,0 +1,27 @@
+Linehan_SampleID_R,Linehan_SampleID,GSM_SampleID,Organism,SourceName,TissueType,TissueType_Details
+X1031.Linehan.1,Linehan-1,GSM4760254,Homo sapiens,kidney,Adjacent_Normal,Renal_Cortex
+X1031.Linehan.2,Linehan-2,GSM4760263,Homo sapiens,kidney,Primary_Tumor,HLRCC_Tumor
+X1031.Linehan.3,Linehan-3,GSM4760271,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.4,Linehan-4,GSM4760272,Homo sapiens,kidney,Adjacent_Normal,Renal_Cortex
+X1031.Linehan.5,Linehan-5,GSM4760275,Homo sapiens,kidney,Primary_Tumor,HLRCC_Tumor
+X1031.Linehan.6,Linehan-6,GSM4760276,Homo sapiens,kidney,Adjacent_Normal,Renal_Cortex
+X1031.Linehan.7,Linehan-7,GSM4760277,Homo sapiens,kidney,Primary_Tumor,HLRCC_Tumor
+X1031.Linehan.8,Linehan-8,GSM4760278,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.9,Linehan-9,GSM4760279,Homo sapiens,kidney,Adjacent_Normal,Renal_Cortex
+X1031.Linehan.10,Linehan-10,GSM4760255,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.11,Linehan-11,GSM4760256,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.12,Linehan-12,GSM4760257,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.13,Linehan-13,GSM4760258,Homo sapiens,kidney,Primary_Tumor,HLRCC_Tumor
+X1031.Linehan.14,Linehan-14,GSM4760259,Homo sapiens,kidney,Adjacent_Normal,Renal_Cortex
+X1031.Linehan.15,Linehan-15,GSM4760260,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.17,Linehan-17,GSM4760261,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.18,Linehan-18,GSM4760262,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.19,Linehan-20,GSM4760264,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.20,Linehan-21,GSM4760265,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.21,Linehan-22,GSM4760266,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.22,Linehan-23,GSM4760267,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.23,Linehan-24,GSM4760268,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.24,Linehan-25,GSM4760269,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.25,Linehan-26,GSM4760270,Homo sapiens,kidney,Primary_Tumor,HLRCC_Tumor
+X1031.Linehan.41,Linehan-41,GSM4760273,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis
+X1031.Linehan.42,Linehan-42,GSM4760274,Homo sapiens,kidney,Metastasis,HLRCC_Metastasis

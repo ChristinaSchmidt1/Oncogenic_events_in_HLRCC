@@ -1,0 +1,398 @@
+---
+title: "RNAseq"
+author: "Christina Schmidt"
+date: "13 January 2022"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+---
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse) # used for data manipulation
+library(rmarkdown) # used for paged_table function
+library(kableExtra) # used for table
+```
+
+# Samples
+Here we use the result of the RNAseq provided by the Cambridge Genomic Services, Department of Pathology, University of Cambridge . They also performed quality control and differential expression analysis using EdgeR (normalized for GC content).
+
+# Data Preparation
+1. Remove duplicated gene names\
+Here duplicated gene names are removed. This will include NA or empty spaces, which both can occur when Ensembl numbers have no corresponding gene name assigned.\
+If a gene name was duplicated the entry with the greatest Log2FC was kept.\
+\
+```{r, message=FALSE, warning=FALSE}
+HIRAvCL19 <- read.csv("InputData_MouseCells/Results_gc_length_corrected_Cl19__VS__Cl19_gHira.csv", header=TRUE)%>%
+  rename("symbol" ="GeneName",
+         "log2FoldChange"="logFC")
+HIRAvsFL <- read.csv("InputData_MouseCells/Results_gc_length_corrected_Fl__VS__Fl_gHira.csv", header=TRUE)%>%
+  rename("symbol" ="GeneName",
+         "log2FoldChange"="logFC")
+CL19vFL <- read.csv("InputData_MouseCells/Results_gc_length_corrected_Fl__VS__Cl19.csv", header=TRUE)%>%
+  rename("symbol" ="GeneName",
+         "log2FoldChange"="logFC")
+
+#---------------
+#Remove duplicated genes: Function 
+RemoveDublons <-function(MyData){
+  MyData <- MyData[complete.cases(MyData),] 
+  doublons <- as.character(MyData[duplicated(MyData$symbol),"symbol"])
+  print("Number of duplicated genes:")
+  print(length(doublons))
+  # Keep the entry with the greatest Log2FC:
+  MyData$absLogFC <- abs(MyData$log2FoldChange)
+  MyData <- MyData[ order(MyData$absLogFC), ]
+  MyData_Select <- MyData[!duplicated(MyData$symbol),]
+  #Output
+  OutputFileName <-  MyData_Select
+}
+
+HIRAvCL19_ND <- RemoveDublons(MyData= HIRAvCL19)
+HIRAvsFL_ND <- RemoveDublons(MyData= HIRAvsFL)
+CL19vFL_ND <- RemoveDublons(MyData= CL19vFL)
+```
+
+# GSEA and Plots
+
+## Translate Human pathways to Mouse
+Since all these signatures are based on human genes, the pathways were translated into mouse. Of course some human genes are not conserved in mouse (and the other way around) and hence the pathway lists may become smaller.\
+This was done using [scibiomart](https://github.com/ArianeMora/scibiomart/tree/1.0.0), which is based on [biomaRt](https://www.bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/biomaRt.html).
+
+```{r, message=FALSE, warning=FALSE}
+#Install and download the package
+library(reticulate)
+#py_install("scibiomart", pip = TRUE)# install scibiomart
+scibiomart <- import("scibiomart")# import scibiomart
+
+# Get the mapping to gene IDs
+sb <- scibiomart$SciBiomart()
+sb$set_mart('ENSEMBL_MART_ENSEMBL')
+sb$set_dataset('hsapiens_gene_ensembl')
+Hum_to_Mus <- sb$run_query(NULL, c('ensembl_gene_id', 'external_gene_name', 'mmusculus_homolog_ensembl_gene'))
+Hum_to_Mus <- Hum_to_Mus %>%
+  unnest(c(external_gene_name, mmusculus_homolog_ensembl_gene))
+
+# Establish the functions needed to map the pathways to the mouse genes:
+library(fgsea)
+library(GSEABase)
+gmt_to_csv <- function(gmtfile, fast = T){
+  if(fast)
+  {
+    genesets = GSEABase::getGmt(con = gmtfile)
+    genesets = unlist(genesets)
+    
+    gene_to_term =plyr::ldply(genesets,function(geneset){
+      temp <- geneIds(geneset)
+      temp2 <- setName(geneset)
+      temp3 <- as.data.frame(cbind(temp,rep(temp2,length(temp))))
+      
+    },.progress = plyr::progress_text())
+    names(gene_to_term) <- c("gene","term")
+    return(gene_to_term[complete.cases(gene_to_term),])
+  }
+  else
+  {
+    genesets = getGmt(con = gmtfile)
+    genesets = unlist(genesets)
+    
+    gene_to_term <- data.frame(NA,NA)
+    names(gene_to_term) <- c("gene","term")
+    for (geneset in genesets)
+    {
+      temp <- geneIds(geneset)
+      temp2 <- setName(geneset)
+      temp3 <- as.data.frame(cbind(temp,rep(temp2,length(temp))))
+      names(temp3) <- c("gene","term")
+      gene_to_term <- rbind(gene_to_term,temp3)
+    }
+    
+    return(gene_to_term[complete.cases(gene_to_term),])
+  }
+}
+Hum_Mus_Gene <-function(GMT_File, MappingList){
+  InputPathway <- gmt_to_csv(GMT_File)
+  print("Genes in InputPathway")
+  print(GMT_File)
+  print(nrow(InputPathway))
+  Pathway <- merge(x = InputPathway, y = MappingList, by.x='gene', by.y='external_gene_name', all.x = TRUE)
+  Pathway_M <- Pathway[,c(4,2)]%>%
+    subset(mmusculus_homolog_ensembl_gene!="NULL")%>%
+    subset(mmusculus_homolog_ensembl_gene!="NA")%>%
+    unite(Unique_ID, c("mmusculus_homolog_ensembl_gene", "term"), remove = FALSE)
+  names(Pathway_M )[names(Pathway_M ) == "mmusculus_homolog_ensembl_gene"] <- "gene"#Rename the rowname
+    Pathway_M <- Pathway_M[!duplicated(Pathway_M$Unique_ID),]
+    Pathway_M <- Pathway_M[,-1]
+  print("Genes in InputPathway translated to mouse:")
+  print(nrow(Pathway_M))
+  Output <- Pathway_M
+}
+Hum_Mus_Gene_csv <-function(csv_File, MappingList){
+  InputPathway <- read.csv(csv_File)
+  print("Genes in InputPathway")
+  print(csv_File)
+  print(nrow(InputPathway))
+  Pathway <- merge(x = InputPathway, y = MappingList, by.x='gene', by.y='external_gene_name', all.x = TRUE)
+  Pathway_M <- Pathway[,c(4,2)]%>%
+    subset(mmusculus_homolog_ensembl_gene!="NULL")%>%
+    subset(mmusculus_homolog_ensembl_gene!="NA")%>%
+    unite(Unique_ID, c("mmusculus_homolog_ensembl_gene", "term"), remove = FALSE)
+  names(Pathway_M )[names(Pathway_M ) == "mmusculus_homolog_ensembl_gene"] <- "gene"#Rename the rowname
+    Pathway_M <- Pathway_M[!duplicated(Pathway_M$Unique_ID),]
+    Pathway_M <- Pathway_M[,-1]
+  print("Genes in InputPathway translated to mouse:")
+  print(nrow(Pathway_M))
+  Output <- Pathway_M
+}
+
+#Translate the pathway file needed to run the GSEA:
+KEGG <- Hum_Mus_Gene(GMT_File="Input_MSigDB_Signatures/c2.cp.kegg.v6.2.symbols.gmt", MappingList=Hum_to_Mus)
+Reactome <- Hum_Mus_Gene(GMT_File="Input_MSigDB_Signatures/c2.cp.reactome.v6.2.symbols.gmt", MappingList=Hum_to_Mus)
+Biocarta <- Hum_Mus_Gene(GMT_File="Input_MSigDB_Signatures/c2.cp.biocarta.v6.2.symbols.gmt", MappingList=Hum_to_Mus)
+Hallmarks <- Hum_Mus_Gene(GMT_File="Input_MSigDB_Signatures/h.all.v6.2.symbols.gmt", MappingList=Hum_to_Mus)
+NRF2 <- Hum_Mus_Gene(GMT_File="Input_MSigDB_Signatures/NFE2L2.gmt", MappingList=Hum_to_Mus)
+EMT <- Hum_Mus_Gene_csv(csv_File="Input_MSigDB_Signatures/EMT-signature.csv", MappingList=Hum_to_Mus)
+```
+
+## GSEA
+The analysis below are done using the DESeq2 result of the comparison primary tumour versus adjacent normal.\
+\
+For this we use gene set collections of biological pathways or molecular network information about a biological system, such as the Molecular signatures database (MsigDB) to find sets of altered signalling pathways or processes.\
+\
+GSEA was run using the Log2FC of the EdgeR results for ranking.\
+First I downloaded the signatures of interest from the [MsigDB](http://software.broadinstitute.org/gsea/msigdb) including "KEGG", "Reactome", "Biocarta", "Hallmarks" and "NFE2L2" (=NRF2) as well as "EMT" (= manually curated EMT-signature based on [Taube et al.](https://pubmed.ncbi.nlm.nih.gov/20713713/).).\
+In order to be able to compare the results of the different signatures of interest, we combined the signatures and run them together. 
+
+```{r, warning= FALSE, message=FALSE}
+#Establish the function
+DoGSEA<- function(InputData, OutputfileName){
+  #Prepare data matrix for GSEA:
+  Column_Gene <- as.character(InputData$X)#Ensembl name
+  Column_tval <- as.numeric(InputData$log2FoldChange)
+  MyData_Extracted <- data.frame(cbind(Column_Gene, Column_tval), stringsAsFactors = F)
+  MyData_Extracted$Column_tval <- as.numeric(MyData_Extracted$Column_tval)
+  t_val <- as.numeric(MyData_Extracted$Column_tval)#Make the data into a vector
+  names(t_val) <- MyData_Extracted$Column_Gene
+  #Run the GSEA analysis
+  ##1."KEGG", "Reactome", "Biocarta", "Hallmarks"
+  pathways <- rbind(KEGG, Reactome, Biocarta, Hallmarks, EMT, NRF2)
+  pathway_list <- list()
+  for(pathway in unique(pathways$term))
+  {pathway_list[[pathway]] <- as.character(pathways[pathways$term == pathway, 1])}
+  gsea_result1 <- fgsea(pathways = pathway_list, stats = t_val, nperm = 1000)
+  write_csv(gsea_result1[,c(-8)], file=paste("GSEA_result_KEGG-Hallmark-Reactome-Biocarta-NRF2-EMT", OutputfileName, ".csv", sep="_"))
+  Output1 <- gsea_result1
+}
+
+#Run GSEA:
+DoGSEA(InputData = HIRAvCL19_ND, 
+      OutputfileName="HIRAvCL19")
+
+DoGSEA(InputData = HIRAvsFL_ND, 
+      OutputfileName="HIRAvsFL")
+
+DoGSEA(InputData = CL19vFL_ND ,
+      OutputfileName="CL19vFL")
+
+```
+
+## Volcano Plots
+```{r, message=FALSE, warning=FALSE}
+#Load the data:
+GSEA_HIRAvCL19 <-read.csv("OutputData_MouseCells/GSEA_result_KEGG-Hallmark-Reactome-Biocarta-NRF2-EMT_HIRAvCL19_.csv")
+GSEA_HIRAvsFL<-read.csv("OutputData_MouseCells/GSEA_result_KEGG-Hallmark-Reactome-Biocarta-NRF2-EMT_HIRAvsFL_.csv")
+GSEA_CL19vsFL <-read.csv("OutputData_MouseCells/GSEA_result_KEGG-Hallmark-Reactome-Biocarta-NRF2-EMT_CL19vFL_.csv")
+
+HIRAvCL19 <-HIRAvCL19_ND%>%
+  rename("FDR"="padj")
+HIRAvsFL <-HIRAvsFL_ND%>%
+  rename("FDR"="padj")
+CL19vFL <- CL19vFL_ND%>%
+  rename("FDR"="padj")
+
+#Establish the VolcanoPlot functions
+library(ggrepel)
+library(EnhancedVolcano)
+VolcanoPlot_GSEA <- function(GSEA_Results, Labels, OutputfileName){
+  Volcano1 <- separate(GSEA_Results,"pathway", into = c("signature", "rest"), sep= "_", remove=FALSE)%>% 
+    mutate(colour = case_when(signature =="KEGG" ~ 'blue',
+                              signature =="BIOCARTA" ~ 'gold4',
+                              signature =="HALLMARK" ~ 'deeppink4',
+                              signature =="REACTOME" ~ 'seagreen4',
+                              signature =="NFE2L2.V2" ~ 'pink',
+                              signature =="EMTdown" ~ 'red',
+                              signature =="EMTup" ~ 'red',
+                                  TRUE ~ 'Not_Detected'))
+  keyvals <- ifelse(
+    Volcano1$colour == "blue", "blue",
+    ifelse(Volcano1$colour == "gold4", "gold4",
+    ifelse(Volcano1$colour == "deeppink4", "deeppink4",
+    ifelse(Volcano1$colour == "seagreen4", "seagreen4",
+    ifelse(Volcano1$colour == "pink", "pink",
+    ifelse(Volcano1$colour == "red", "red",
+           "black"))))))
+  keyvals[is.na(keyvals)] <- 'black'
+  names(keyvals)[keyvals == 'blue'] <- "KEGG"
+  names(keyvals)[keyvals == 'gold4'] <- "BIOCARTA"
+  names(keyvals)[keyvals == 'deeppink4'] <- "HALLMARK"
+  names(keyvals)[keyvals == 'seagreen4'] <- "REACTOME"
+  names(keyvals)[keyvals == 'pink'] <- "NRF2"
+  names(keyvals)[keyvals == 'red'] <- "EMT"
+    names(keyvals)[keyvals == 'black'] <- 'X'
+  VolcanoPlot <- EnhancedVolcano (Volcano1,
+                lab = Volcano1$pathway,#Metabolite name
+                selectLab = Labels,
+                x = "NES",#Log2FC
+                y = "padj",#p-value or q-value
+                xlab = "NES",
+                ylab = bquote(~-Log[10]~p.adj),#(~-Log[10]~adjusted~italic(P))
+                pCutoff = 0.25,
+                FCcutoff = 0.5,#Cut off Log2FC, automatically 2
+                pointSize = 3,
+                labSize = 1,
+                labFace = 'bold',
+                boxedLabels = FALSE,
+                colCustom = keyvals,
+                titleLabSize = 16,
+                col=c("black", "grey", "grey", "purple"),#if you want to change colors
+                colAlpha = 0.5,
+                title=paste(OutputfileName),
+                subtitle = bquote(italic("GSEA")),
+                caption = paste0("total = ", (nrow(Volcano1)), " Pathways"),
+                #xlim = c(-3.5,2.5),
+                #ylim = c(0,1.5),
+                ylim = c(0,((-log10(Reduce(min,GSEA_Results$padj))))+0.05),
+                drawConnectors = TRUE,
+                widthConnectors = 0.5,
+                colConnectors = "black",
+                cutoffLineType = "dashed",
+                cutoffLineCol = "black",
+                cutoffLineWidth = 0.5,
+                legendLabels=c('No changes',"-0.5< NES <0.5", 'p.adj<0.25 & -0.5< NES <0.5"'),
+                legendPosition = 'right',
+                legendLabSize = 12,
+                legendIconSize = 5.0
+                )
+  ggsave(file=paste("Figures_MouseCells/VolcanoPlot_GSEA_KEGG-Hallmark-Reactome-Biocarta-EMT-NRF2", OutputfileName, "SelectedLabels.pdf", sep="_"), plot=VolcanoPlot, width=10, height=8)
+  plot(VolcanoPlot)
+}
+VolcanoPlot_RNAseq <- function(Signature_Merge_RNA, Signature,Labels, OutputPlotName, NES, p.adj, Title){
+  VolcanoPlot <-EnhancedVolcano (Signature_Merge_RNA,
+                lab = Signature_Merge_RNA$symbol,#Metabolite name
+                selectLab = Labels,
+                x = "log2FoldChange",#Log2FC
+                y = "padj",#p-value or q-value
+                xlab = bquote(~Log[2]~ "FC"),
+                ylab = bquote(~-Log[10]~p.adj),#(~-Log[10]~adjusted~italic(P))
+                pCutoff = 0.05,
+                FCcutoff = 0.5,#Cut off Log2FC, automatically 2
+                pointSize = 4,
+                labSize = 3,
+                labFace = 'bold',
+                titleLabSize = 12,
+                subtitleLabSize = 8,
+                col=c("darkseagreen3", "mediumaquamarine", "mediumaquamarine", "cyan4"),
+                colAlpha = 0.5,
+                title=(file=paste("RNAseq:", Title, " " ,sep="")),
+                subtitle = (file=paste("", OutputPlotName, " (NES=", NES, "p.adj.=", p.adj, ")",sep="")),
+                caption = paste0("total = ", nrow(Signature_Merge_RNA), " genes of ", nrow(Signature), " genes in pathway"),
+                xlim = c((((Reduce(min,Signature_Merge_RNA$log2FoldChange))))-0.3,(((Reduce(max,Signature_Merge_RNA$log2FoldChange))))+0.3),
+                ylim = c(0,((-log10(Reduce(min,Signature_Merge_RNA$padj))))+0.2),
+                drawConnectors = TRUE,
+                widthConnectors = 0.5,
+                colConnectors = "black",
+                cutoffLineType = "dashed",
+                cutoffLineCol = "black",
+                cutoffLineWidth = 0.5,
+                #legendLabels=c('No changes',"-0.5< Log2FC <0.5","-0.5< Log2FC <0.5", 'p.adj<0.05 & -0.5< Log2FC <0.5"'),
+                legendPosition = 'right',
+                legendLabSize = -1,
+                legendIconSize = -1
+                )
+  ggsave(file=paste("Figures_MouseCells/VolcanoPlot_GSEA", OutputPlotName,Title, "SelectedLabels.pdf", sep="_"), plot=VolcanoPlot, width=10, height=8)
+  plot(VolcanoPlot)
+}
+```
+
+### HIRA vs CL19
+- Signatures to show: HALLMARK_MYC_TARGETS_V1 and HALLMARK_E2F_TARGETS (up) and EMT down (down).\
+- From those signatures, highlight the following genes: Kpna2, Mcm5, Smc3, Ppm1d, Epcam and Cdh1.\
+\
+Make an overview plot of the GSEA results:\
+```{r, message=FALSE, warning=FALSE}
+VolcanoPlot_GSEA(GSEA_Results= GSEA_HIRAvCL19,
+                 Labels= c("HALLMARK_MYC_TARGETS_V1", "HALLMARK_E2F_TARGETS", "EMTdown", "EMTup"),
+                 OutputfileName="HIRAvCL19")
+```
+\
+Individual Signatures:
+```{r, message=FALSE, warning=FALSE}
+#-----------------------------------------------------------------------
+#HALLMARK_MYC_TARGETS_V1
+Signature <- subset(Hallmarks, term == "HALLMARK_MYC_TARGETS_V1")
+Signature_Merge_RNA <- merge(x=Signature,y=HIRAvCL19, by.x="gene", by.y="X", all.x=TRUE)%>%
+  na.omit()
+
+VolcanoPlot_RNAseq(Signature_Merge_RNA=Signature_Merge_RNA, 
+                   Signature=Signature, 
+                   Labels=c("Kpna2", "Mcm5", "Smc3", "Ppm1d"),
+                   OutputPlotName="HALLMARK_MYC_TARGETS_V1", 
+                   NES="2.02", 
+                   p.adj="0.098",
+                   Title="HIRAvCL19")
+
+#-----------------------------------------------------------------------
+#HALLMARK_MYC_TARGETS
+Signature <- subset(Hallmarks, term == "HALLMARK_E2F_TARGETS")
+Signature_Merge_RNA <- merge(x=Signature,y=HIRAvCL19, by.x="gene", by.y="X", all.x=TRUE)%>%
+  na.omit()
+
+VolcanoPlot_RNAseq(Signature_Merge_RNA=Signature_Merge_RNA, 
+                   Signature=Signature, 
+                   Labels=c("Kpna2", "Mcm5", "Smc3", "Ppm1d"),
+                   OutputPlotName="HALLMARK_E2F_TARGETS", 
+                   NES="2.01", 
+                   p.adj="0.098",
+                   Title="HIRAvCL19")
+
+#-----------------------------------------------------------------------
+#EMT
+Signature <- subset(EMT, term == "EMTdown")
+Signature_Merge_RNA <- merge(x=Signature,y=HIRAvCL19, by.x="gene", by.y="X", all.x=TRUE)%>%
+  na.omit()
+
+VolcanoPlot_RNAseq(Signature_Merge_RNA=Signature_Merge_RNA, 
+                   Signature=Signature, 
+                   OutputPlotName="EMTdown", 
+                   Labels=c("Epcam", "Cdh1"),
+                   NES="-2.40", 
+                   p.adj="0.098",
+                   Title="HIRAvCL19")
+```
+
+### Cl19 vs FL
+-Volcano with labels: HALLMARK_MYC_TARGETS_V1, HALLMARK_E2F_TARGETS, HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION\
+Make an overview plot of the GSEA results:\
+```{r, message=FALSE, warning=FALSE}
+VolcanoPlot_GSEA(GSEA_Results= GSEA_CL19vsFL,
+                 Labels= c("HALLMARK_MYC_TARGETS_V1", "HALLMARK_E2F_TARGETS", "HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION"),
+                 OutputfileName="CL19vsFL")
+```
+
+### HIRA vs FL
+-Signatures to show (all)\
+Make an overview plot of the GSEA results:
+```{r, message=FALSE, warning=FALSE}
+VolcanoPlot_GSEA(GSEA_Results= GSEA_HIRAvsFL,
+                 Labels= c(),
+                 OutputfileName="HIRAvsFL")
+```
+
+# Information about package used and versions 
+```{r}
+sessionInfo()
+```
+
+ 

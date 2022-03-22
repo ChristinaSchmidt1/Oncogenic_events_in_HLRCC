@@ -1,0 +1,2047 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>NGS-L.Valcarcel Analysis Report</title>
+
+<script src="NGS-L.Valcarcel-40680-report_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="NGS-L.Valcarcel-40680-report_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="NGS-L.Valcarcel-40680-report_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="NGS-L.Valcarcel-40680-report_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="NGS-L.Valcarcel-40680-report_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="NGS-L.Valcarcel-40680-report_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="NGS-L.Valcarcel-40680-report_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="NGS-L.Valcarcel-40680-report_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="NGS-L.Valcarcel-40680-report_files/navigation-1.1/tabsets.js"></script>
+<link href="NGS-L.Valcarcel-40680-report_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="NGS-L.Valcarcel-40680-report_files/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">NGS-L.Valcarcel Analysis Report</h1>
+
+</div>
+
+
+<div id="analysis-overview" class="section level1">
+<h1>Analysis overview</h1>
+The following is a diagram of the analysis workflow. Each step has it's own section in this report, accessible by clicking on the required section in the table of contents. For more details about the parameters, software, reference genome and gene models used see section &quot;Analysis details&quot;.<br />
+<br><br />
+
+<div style="width:800px; height=1000px">
+<p><img src="pipeline.png" /></a></p>
+</div>
+<p><br></p>
+</div>
+<div id="experimental-design" class="section level1">
+<h1>Experimental design</h1>
+<table>
+<thead>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Group</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Cl19_1_S4</td>
+<td align="center">Cl19</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_2_S5</td>
+<td align="center">Cl19</td>
+</tr>
+<tr class="odd">
+<td align="center">Cl19_3_S6</td>
+<td align="center">Cl19</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_gHira_1_S10</td>
+<td align="center">Cl19_gHira</td>
+</tr>
+<tr class="odd">
+<td align="center">Cl19_gHira_2_S11</td>
+<td align="center">Cl19_gHira</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_gHira_3_S12</td>
+<td align="center">Cl19_gHira</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_1_S1</td>
+<td align="center">Fl</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_2_S2</td>
+<td align="center">Fl</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_3_S3</td>
+<td align="center">Fl</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_gHira_1_S7</td>
+<td align="center">Fl_gHira</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_gHira_2_S8</td>
+<td align="center">Fl_gHira</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_gHira_3_S9</td>
+<td align="center">Fl_gHira</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="data" class="section level1 tabset">
+<h1>Data</h1>
+<p>The number of reads that were generated and used as the starting point of the analysis are presented in the following table for forward (R1) reads for each sample. The plot in the second tab shows the percentage of reads belonging to each sample, from the total yield.<br />
+The number of reads generated is large for each sample. the minimum number of reads is 28 millions, and the maximum 45 million reads. The library balance is fairly good, a few sample have more reads than the other but we are well over the 10-15 millions required for gene expression analysis for all of the samples.</p>
+<div id="table" class="section level2">
+<h2>Table</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Sample</th>
+<th align="center">Number of reads</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Cl19_1_S4_R1</td>
+<td align="center">41,196,564</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_2_S5_R1</td>
+<td align="center">28,853,229</td>
+</tr>
+<tr class="odd">
+<td align="center">Cl19_3_S6_R1</td>
+<td align="center">32,968,970</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_gHira_1_S10_R1</td>
+<td align="center">45,193,070</td>
+</tr>
+<tr class="odd">
+<td align="center">Cl19_gHira_2_S11_R1</td>
+<td align="center">32,597,557</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_gHira_3_S12_R1</td>
+<td align="center">32,064,629</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_1_S1_R1</td>
+<td align="center">42,432,614</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_2_S2_R1</td>
+<td align="center">37,660,696</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_3_S3_R1</td>
+<td align="center">32,226,060</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_gHira_1_S7_R1</td>
+<td align="center">29,854,795</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_gHira_2_S8_R1</td>
+<td align="center">25,571,694</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_gHira_3_S9_R1</td>
+<td align="center">43,146,989</td>
+</tr>
+<tr class="odd">
+<td align="center"><br><br></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="plot" class="section level2">
+<h2>Plot</h2>
+<p><a href="./QC/IndexQC/nreads.png" rel="" ><img src="QC/IndexQC/nreads.png" /></a></p>
+<p><br><br></p>
+</div>
+</div>
+<div id="quality-control" class="section level1">
+<h1>Quality control</h1>
+<p>The quality control of the reads was done using FastQC [1] v0.11.4. This section describes the different metrics that are explored in the raw data.</p>
+<div id="per-base-sequence-quality" class="section level2 tabset">
+<h2>Per Base Sequence Quality</h2>
+<p>This figure shows boxplots of the distribution of quality values across the reads at each position, for each sample. On the <em>y</em>-axis we have values going from 0 to 40. These are quality scores, and they mean the rate of error. A <em>y</em> value of 10 would mean a rate of 1 error in 10, then a value of 20 would mean a rate of 1 error in 100 and a value of 30, 1 error in 1000. Quality is normally expected to drop towards the end of the reads.<br />
+All the samples have high quality score along the whole length of the read.</p>
+<div id="sample-1" class="section level3">
+<h3>Sample 1</h3>
+<p><a href="./QC/rawQC/Cl19_1_S4_per_base_sequence_qual.png" rel="" ><img src="QC/rawQC/Cl19_1_S4_per_base_sequence_qual.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="sample-2" class="section level3">
+<h3>Sample 2</h3>
+<p><a href="./QC/rawQC/Cl19_2_S5_per_base_sequence_qual.png" rel="" ><img src="QC/rawQC/Cl19_2_S5_per_base_sequence_qual.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="sample-3" class="section level3">
+<h3>Sample 3</h3>
+<p><a href="./QC/rawQC/Cl19_3_S6_per_base_sequence_qual.png" rel="" ><img src="QC/rawQC/Cl19_3_S6_per_base_sequence_qual.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="sample-4" class="section level3">
+<h3>Sample 4</h3>
+<p><a href="./QC/rawQC/Cl19_gHira_1_S10_per_base_sequence_qual.png" rel="" ><img src="QC/rawQC/Cl19_gHira_1_S10_per_base_sequence_qual.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="sample-5" class="section level3">
+<h3>Sample 5</h3>
+<p><a href="./QC/rawQC/Cl19_gHira_2_S11_per_base_sequence_qual.png" rel="" ><img src="QC/rawQC/Cl19_gHira_2_S11_per_base_sequence_qual.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="sample-6" class="section level3">
+<h3>Sample 6</h3>
+<p><a href="./QC/rawQC/Cl19_gHira_3_S12_per_base_sequence_qual.png" rel="" ><img src="QC/rawQC/Cl19_gHira_3_S12_per_base_sequence_qual.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="sample-7" class="section level3">
+<h3>Sample 7</h3>
+<p><a href="./QC/rawQC/Fl_1_S1_per_base_sequence_qual.png" rel="" ><img src="QC/rawQC/Fl_1_S1_per_base_sequence_qual.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="sample-8" class="section level3">
+<h3>Sample 8</h3>
+<p><a href="./QC/rawQC/Fl_2_S2_per_base_sequence_qual.png" rel="" ><img src="QC/rawQC/Fl_2_S2_per_base_sequence_qual.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="sample-9" class="section level3">
+<h3>Sample 9</h3>
+<p><a href="./QC/rawQC/Fl_3_S3_per_base_sequence_qual.png" rel="" ><img src="QC/rawQC/Fl_3_S3_per_base_sequence_qual.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="sample-10" class="section level3">
+<h3>Sample 10</h3>
+<p><a href="./QC/rawQC/Fl_gHira_1_S7_per_base_sequence_qual.png" rel="" ><img src="QC/rawQC/Fl_gHira_1_S7_per_base_sequence_qual.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="sample-11" class="section level3">
+<h3>Sample 11</h3>
+<p><a href="./QC/rawQC/Fl_gHira_2_S8_per_base_sequence_qual.png" rel="" ><img src="QC/rawQC/Fl_gHira_2_S8_per_base_sequence_qual.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="sample-12" class="section level3">
+<h3>Sample 12</h3>
+<p><a href="./QC/rawQC/Fl_gHira_3_S9_per_base_sequence_qual.png" rel="" ><img src="QC/rawQC/Fl_gHira_3_S9_per_base_sequence_qual.png" /></a></p>
+<p><br><br></p>
+</div>
+</div>
+<div id="per-sequence-quality-scores" class="section level2">
+<h2>Per Sequence Quality Scores</h2>
+<p>The next plot shows the distribution of the mean of the reads quality across bases. It is expected that reads have a mean quality score of 30 or greater, so the distribution of the plot should show a peak around or after 30 on the <em>x</em>-axis.<br />
+This confirms that overall the quality score of the reads for each of the samples is very high.</p>
+<p><a href="./QC/rawQC/per_sequence_quality_scores.png" rel="" ><img src="QC/rawQC/per_sequence_quality_scores.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="per-base-sequence-content" class="section level2">
+<h2>Per Base Sequence Content</h2>
+<p>The per base sequence content plot shows the proportion of each of the four DNA nucleotides at each position across the reads. In a random library we expect little or no difference between the proportions of the four nucleotides across the read's length, which means that the plot should show parallel lines across the <em>x</em>-axis. Some problems that can be detected using these plots are over-represented sequences, biased fragmentation and biased composition libraries. Some RNA-Seq library preparation methods will cause a bias at the beginning of the reads, as can be seen here. It is also common to see a drop in the proportion of A nucleotide at the end of the read due to trimming of adapters.<br />
+The plot looks as we would expect it for this type of data.</p>
+<p><a href="./QC/rawQC/per_base_sequence_content_r1.png" rel="" ><img src="QC/rawQC/per_base_sequence_content_r1.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="per-sequence-gc-content" class="section level2">
+<h2>Per Sequence GC content</h2>
+<p>The next plot shows the distribution of GC content in a set of reads. Non-biased libraries should show a normal distribution of GC content, with distribution centered at the overall GC content of the underlying genome. This plot can help to identify contamintation or a biased subset in the library.<br />
+The plot doesn't show any evidence of contamination and the peaks are well aligned.</p>
+<p><a href="./QC/rawQC/per_sequence_gc_content.png" rel="" ><img src="QC/rawQC/per_sequence_gc_content.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="sequence-length-distribution" class="section level2">
+<h2>Sequence length distribution</h2>
+<p>The following plot shows the distribution of sequence length of the reads in the libraries. This number should match the sequence length used in the protocol and may be changed after trimming.<br />
+The reads have the expected length.<br />
+<a href="./QC/rawQC/sequence_length_distribution.png" rel="" ><img src="QC/rawQC/sequence_length_distribution.png" /></a></p>
+<p><br><br></p>
+</div>
+<div id="sequence-duplication-levels" class="section level2">
+<h2>Sequence duplication levels</h2>
+<p>The sequence duplication levels plot shows if there are identical reads that occur more than once. High levels of duplication may indicate some enrichment bias, like PCR over-amplification of a particular set of reads, or contamination. However, RNA-Seq libraries will normally show sets of reads at higher duplication bins. These potentially correspond to highly expressed transcripts which provide a high number of templates from the same region that are amplified and sequenced. For RNA-Seq analysis we do not remove these reads from the data.<br />
+Any peaks shown after ~ &gt;1K may correspond to reads with high polyA content, mitochondrial RNA or and ribosomal RNA.<br />
+The profile is as expected for this type of experiment.</p>
+<p><a href="./QC/rawQC/sequence_dup_levels.png" rel="" ><img src="QC/rawQC/sequence_dup_levels.png" /></a></p>
+<p><br><br><br></p>
+</div>
+</div>
+<div id="trimming-of-low-quality-bases-and-adapters" class="section level1 tabset">
+<h1>Trimming of low quality bases and adapters</h1>
+<p>Reads were trimmed using TrimGalore [2] v0.5.0. TrimGalore trims off low-quality base calls from the 3' end of the reads, before the adapter removal. Next, it finds and removes adapter sequences from the 3' end of reads. If reads after trimming are less than 20 bases long, they are discarded from the dataset. The percentage of reads that were removed after trimming, and the number of reads kept after trimming are shown in the table below. As with the per base sequence raw data plots, the per base sequence content should not vary too much across the length of the read. The adaptor trimming has indeed caused the expected drop in the proportion of A nucleotides at the end of the read, as mentioned above.</p>
+<p>PolyA sequences may also affect the mapping of reads <em>if</em> the alignment tool used consists of alignment of reads from end-to-end. The tool used for mapping in this analysis is STAR, as explained in the following section. STAR does local alignment and clipping of 3'-end of reads in case such an alignment gives a better score. The number of reads remove due to the trimming process is very low as we would expect from good quality reads.<br />
+The number of reads removed from the data set is very low.</p>
+<div id="table-1" class="section level2">
+<h2>Table</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Sample</th>
+<th align="center">Number of raw reads</th>
+<th align="center">Number of reads after trimming</th>
+<th align="center">% Removed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Cl19_1_S4_R1</td>
+<td align="center">41,196,564</td>
+<td align="center">41,181,893</td>
+<td align="center">0.0356</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_2_S5_R1</td>
+<td align="center">28,853,229</td>
+<td align="center">28,845,740</td>
+<td align="center">0.0260</td>
+</tr>
+<tr class="odd">
+<td align="center">Cl19_3_S6_R1</td>
+<td align="center">32,968,970</td>
+<td align="center">32,956,753</td>
+<td align="center">0.0371</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_gHira_1_S10_R1</td>
+<td align="center">45,193,070</td>
+<td align="center">45,186,786</td>
+<td align="center">0.0139</td>
+</tr>
+<tr class="odd">
+<td align="center">Cl19_gHira_2_S11_R1</td>
+<td align="center">32,597,557</td>
+<td align="center">32,588,998</td>
+<td align="center">0.0263</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_gHira_3_S12_R1</td>
+<td align="center">32,064,629</td>
+<td align="center">32,058,815</td>
+<td align="center">0.0181</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_1_S1_R1</td>
+<td align="center">42,432,614</td>
+<td align="center">42,422,576</td>
+<td align="center">0.0237</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_2_S2_R1</td>
+<td align="center">37,660,696</td>
+<td align="center">37,651,322</td>
+<td align="center">0.0249</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_3_S3_R1</td>
+<td align="center">32,226,060</td>
+<td align="center">32,210,749</td>
+<td align="center">0.0475</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_gHira_1_S7_R1</td>
+<td align="center">29,854,795</td>
+<td align="center">29,841,279</td>
+<td align="center">0.0453</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_gHira_2_S8_R1</td>
+<td align="center">25,571,694</td>
+<td align="center">25,560,831</td>
+<td align="center">0.0425</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_gHira_3_S9_R1</td>
+<td align="center">43,146,989</td>
+<td align="center">43,140,480</td>
+<td align="center">0.0151</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="per-base-sequence-content-after-trimming" class="section level2">
+<h2>Per Base Sequence Content after trimming</h2>
+<p><a href="./QC/trimmedQC/per_base_sequence_content_r1.png" rel="" ><img src="QC/trimmedQC/per_base_sequence_content_r1.png" /></a></p>
+<p><br><br></p>
+</div>
+</div>
+<div id="mapping" class="section level1 tabset">
+<h1>Mapping</h1>
+<p>Reads were mapped using STAR [3] v2.7.1. Ensembl Mus_musculus GRCm39 (release 103) reference genome was used to do the mapping of reads, using the annotated transcripts from the ensembl Mus_musculus.GRCm39.103.gtf file.<br />
+<br> The table below shows a summary of the results of the mapping, describing the percentage of uniquely mapped reads, the percentage of reads that mapped to multiple loci and the percentage of unmapped reads. It is expected that &gt;75% of reads from each sample will uniquely map to the genome, as occurs with all of your data, with all samples having &gt;85% unique mapping efficiency. The data set is very consistent with around 86% of the input reads mapped to the genome.<br />
+Additionally, the number of input reads and the number of uniquely mapped reads that will be used in further analyses are displayed. Multiple loci reads are discarded to avoid false positives in the differential expression analysis. Several mapping quality aspects are explored and the results are presented in the tabs below.<br />
+Only ~13% of the reads are lost during the mapping step, the number of reads available per sample remains high.</p>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Sample</th>
+<th align="center">% Uniquely Mapped</th>
+<th align="center">% Multiple Loci</th>
+<th align="center">% Unmapped</th>
+<th align="center">Number of input reads</th>
+<th align="center">Number of Uniquely mapped Reads</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Cl19_1_S4</td>
+<td align="center">86.27</td>
+<td align="center">12.95</td>
+<td align="center">0.79</td>
+<td align="center">41,181,893</td>
+<td align="center">35,526,224</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_2_S5</td>
+<td align="center">86.67</td>
+<td align="center">12.57</td>
+<td align="center">0.76</td>
+<td align="center">28,845,740</td>
+<td align="center">24,999,507</td>
+</tr>
+<tr class="odd">
+<td align="center">Cl19_3_S6</td>
+<td align="center">86.96</td>
+<td align="center">12.19</td>
+<td align="center">0.85</td>
+<td align="center">32,956,753</td>
+<td align="center">28,658,788</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_gHira_1_S10</td>
+<td align="center">86.15</td>
+<td align="center">12.96</td>
+<td align="center">0.89</td>
+<td align="center">45,186,786</td>
+<td align="center">38,928,333</td>
+</tr>
+<tr class="odd">
+<td align="center">Cl19_gHira_2_S11</td>
+<td align="center">85.93</td>
+<td align="center">13.14</td>
+<td align="center">0.92</td>
+<td align="center">32,588,998</td>
+<td align="center">28,004,941</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_gHira_3_S12</td>
+<td align="center">86.16</td>
+<td align="center">12.92</td>
+<td align="center">0.92</td>
+<td align="center">32,058,815</td>
+<td align="center">27,622,840</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_1_S1</td>
+<td align="center">86.13</td>
+<td align="center">13.01</td>
+<td align="center">0.86</td>
+<td align="center">42,422,576</td>
+<td align="center">36,537,541</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_2_S2</td>
+<td align="center">86.18</td>
+<td align="center">13.00</td>
+<td align="center">0.82</td>
+<td align="center">37,651,322</td>
+<td align="center">32,446,335</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_3_S3</td>
+<td align="center">86.21</td>
+<td align="center">13.00</td>
+<td align="center">0.79</td>
+<td align="center">32,210,749</td>
+<td align="center">27,768,300</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_gHira_1_S7</td>
+<td align="center">85.78</td>
+<td align="center">13.41</td>
+<td align="center">0.81</td>
+<td align="center">29,841,279</td>
+<td align="center">25,598,753</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_gHira_2_S8</td>
+<td align="center">85.28</td>
+<td align="center">13.72</td>
+<td align="center">1.00</td>
+<td align="center">25,560,831</td>
+<td align="center">21,798,260</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_gHira_3_S9</td>
+<td align="center">86.16</td>
+<td align="center">13.04</td>
+<td align="center">0.80</td>
+<td align="center">43,140,480</td>
+<td align="center">37,168,391</td>
+</tr>
+</tbody>
+</table>
+<p><br><br><br></p>
+</div>
+<div id="bases-mapping-distribution" class="section level2">
+<h2>Bases mapping distribution</h2>
+<br> In order to determine the percentage of bases that map to different genomic regions, Picard Tools [4] v2.1.1 was used, using the annotated transcripts from the ensembl Mus_musculus.GRCm39.103.gtf file. The genomic regions correspond to coding, intronic, UTR, intergenic and ribosomal loci. The proportion of bases that map to each of these loci is shown in the figure below. We would expect the largest percentage of bases in each sample to map to coding regions (&gt;50%), as can be seen with your data. Note that reads close to UTR regions are likely bases in coding and UTR regions.
+<div style="width:700px; height=700px">
+<p><a href="./QC/mappingQC/read_distribution_genomic_content.png" rel="" ><img src="QC/mappingQC/read_distribution_genomic_content.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+<div id="read-mapping-strandedness" class="section level2">
+<h2>Read mapping strandedness</h2>
+<p>The percentage of reads that map to the expected strand is also calculated using picard tools and is shown in the table below. 99% matches the fact that this kit is stranded (TruSeq) and all samples mapped almost completely to the expected strand.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Sample</th>
+<th align="center">Percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Cl19_1_S4</td>
+<td align="center">99.4963</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_2_S5</td>
+<td align="center">99.6693</td>
+</tr>
+<tr class="odd">
+<td align="center">Cl19_3_S6</td>
+<td align="center">99.6483</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_gHira_1_S10</td>
+<td align="center">99.6699</td>
+</tr>
+<tr class="odd">
+<td align="center">Cl19_gHira_2_S11</td>
+<td align="center">99.6723</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_gHira_3_S12</td>
+<td align="center">99.6703</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_1_S1</td>
+<td align="center">99.6400</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_2_S2</td>
+<td align="center">99.6308</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_3_S3</td>
+<td align="center">99.6611</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_gHira_1_S7</td>
+<td align="center">99.7257</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_gHira_2_S8</td>
+<td align="center">99.7317</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_gHira_3_S9</td>
+<td align="center">99.7457</td>
+</tr>
+</tbody>
+</table>
+<p><br><br><br></p>
+</div>
+<div id="gene-body-coverage" class="section level2">
+<h2>Gene Body Coverage</h2>
+<p>The read coverage (<em>y</em>-axis) along the gene body (<em>x</em>-axis) was calculated in 10,000 random genes using RSeQC [5] v2.6.4 and is shown in the plot below. The expected distribution would be a smooth curve with consistently high coverage across the gene body for all samples.</p>
+<div style="width:700px; height=700px">
+<p><a href="./QC/mappingQC/GeneBodyCoverage.geneBodyCoverage.curves.png" rel="" ><img src="QC/mappingQC/GeneBodyCoverage.geneBodyCoverage.curves.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+</div>
+<div id="counting-of-reads" class="section level1">
+<h1>Counting of reads</h1>
+<p>The number of reads that map to genomic features is calculated using HTSeq[6] v0.6.1. A <strong>feature</strong> is considered as the union of all gene's exons whose genomic coordinates are determined from the ensembl Mus_musculus.GRCm39.103.gtf. <br> Reads with a mapping quality less than 10, or those that map to multiple loci or to overlapping gene regions are discarded to avoid ambiguity and false positives.</p>
+<div id="proportion-of-reads-mapping-to-features" class="section level2">
+<h2>Proportion of reads mapping to features</h2>
+<p>The table below shows the number of reads that mapped to genes (features), to other genomic regions (not in features), and to ambiguous locations. The figure below presents them as proportions for each sample and shows that the vast majority of reads map within gene features.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Sample</th>
+<th align="center">Uniquely_mapped</th>
+<th align="center">In_features</th>
+<th align="center">Not_in_features</th>
+<th align="center">Ambiguous</th>
+<th align="center">Low_aQual</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Cl19_1_S4</td>
+<td align="center">35,526,224</td>
+<td align="center">30,704,972</td>
+<td align="center">4,334,843</td>
+<td align="center">486,409</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_2_S5</td>
+<td align="center">24,999,507</td>
+<td align="center">23,142,384</td>
+<td align="center">1,501,360</td>
+<td align="center">355,763</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">Cl19_3_S6</td>
+<td align="center">28,658,788</td>
+<td align="center">26,299,533</td>
+<td align="center">1,964,159</td>
+<td align="center">395,096</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_gHira_1_S10</td>
+<td align="center">38,928,333</td>
+<td align="center">35,995,011</td>
+<td align="center">2,376,134</td>
+<td align="center">557,188</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">Cl19_gHira_2_S11</td>
+<td align="center">28,004,941</td>
+<td align="center">25,962,287</td>
+<td align="center">1,635,194</td>
+<td align="center">407,460</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_gHira_3_S12</td>
+<td align="center">27,622,840</td>
+<td align="center">25,589,189</td>
+<td align="center">1,637,218</td>
+<td align="center">396,433</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_1_S1</td>
+<td align="center">36,537,541</td>
+<td align="center">32,561,760</td>
+<td align="center">3,462,077</td>
+<td align="center">513,704</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_2_S2</td>
+<td align="center">32,446,335</td>
+<td align="center">28,765,749</td>
+<td align="center">3,231,573</td>
+<td align="center">449,013</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_3_S3</td>
+<td align="center">27,768,300</td>
+<td align="center">24,979,076</td>
+<td align="center">2,393,445</td>
+<td align="center">395,779</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_gHira_1_S7</td>
+<td align="center">25,598,753</td>
+<td align="center">23,893,043</td>
+<td align="center">1,322,369</td>
+<td align="center">383,341</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_gHira_2_S8</td>
+<td align="center">21,798,260</td>
+<td align="center">20,238,821</td>
+<td align="center">1,237,982</td>
+<td align="center">321,457</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_gHira_3_S9</td>
+<td align="center">37,168,391</td>
+<td align="center">34,934,102</td>
+<td align="center">1,688,806</td>
+<td align="center">545,483</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<div style="width:700px; height=700px">
+<p><a href="./QC/countingQC//counts_in_features.png" rel="" ><img src="QC/countingQC/counts_in_features.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+<div id="distribution-of-counts" class="section level2 tabset">
+<h2>Distribution of counts</h2>
+<div id="histogram-per-sample" class="section level3">
+<h3>Histogram per sample</h3>
+The plot below shows the distribution of <strong>log2-counts</strong> in genes (excluding genes with zero counts). The highest peak shows features having few counts.<br />
+
+<div style="width:700px; height=700px">
+<p><a href="./QC/countingQC//countsDistributionHist_per_sample.png" rel="" ><img src="QC/countingQC/countsDistributionHist_per_sample.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+<div id="percentage-of-genes-with-count-values-from-zero-to-max" class="section level3">
+<h3>Percentage of genes with count values from zero to max</h3>
+As seen in the previous plot some genes have low-count values, which makes them likely to be detected in one sample but not in others. Therefore, from the full set of genes detected in all samples, a portion of them (range between ~ 25-40%) have zero or low count values when looking at individual samples.
+<div style="width:700px; height=700px">
+<p><a href="./QC/countingQC//countDistribution_lines_nozeros.png" rel="" ><img src="QC/countingQC/countDistribution_lines_nozeros.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+</div>
+<div id="number-of-genes-detected" class="section level2">
+<h2>Number of genes detected</h2>
+<p>The table below shows the number of genes that were detected (i.e relaxed threshold, count value &gt;=1 ) in each sample.<br />
+The expectation is that the number of genes detected is similar between the samples.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Sample</th>
+<th align="center">Number of genes detected</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Cl19_1_S4</td>
+<td align="center">23,561</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_2_S5</td>
+<td align="center">21,511</td>
+</tr>
+<tr class="odd">
+<td align="center">Cl19_3_S6</td>
+<td align="center">22,111</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_gHira_1_S10</td>
+<td align="center">22,857</td>
+</tr>
+<tr class="odd">
+<td align="center">Cl19_gHira_2_S11</td>
+<td align="center">21,753</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19_gHira_3_S12</td>
+<td align="center">21,787</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_1_S1</td>
+<td align="center">21,642</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_2_S2</td>
+<td align="center">21,278</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_3_S3</td>
+<td align="center">20,726</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_gHira_1_S7</td>
+<td align="center">19,636</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl_gHira_2_S8</td>
+<td align="center">19,083</td>
+</tr>
+<tr class="even">
+<td align="center">Fl_gHira_3_S9</td>
+<td align="center">20,466</td>
+</tr>
+</tbody>
+</table>
+<p><br><br></p>
+</div>
+<div id="library-composition" class="section level2 tabset">
+<h2>Library composition</h2>
+<div id="representation-of-different-rna-biotypes" class="section level3">
+<h3>Representation of different RNA biotypes</h3>
+As expected, protein coding genes represent the main RNA type in all samples.
+<div style="width:700px; height=700px">
+<p><a href="./QC/countingQC//biotype_proportion.png" rel="" ><img src="QC/countingQC/biotype_proportion.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+<div id="some-genes-and-biotypes-with-highest-count-values" class="section level3">
+<h3>Some genes and biotypes with highest count values</h3>
+The plot below shows some of the genes from all RNA types with the highest count values in the libraries. Protein coding genes are shown in the next tab.<br />
+
+<div style="width:700px; height=700px">
+<p><a href="./QC/countingQC//top_expressed_genes.png" rel="" ><img src="QC/countingQC/top_expressed_genes.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+<div id="protein-coding-genes-with-highest-count-value-i" class="section level3">
+<h3>Protein coding genes with highest count value I</h3>
+This figure shows some of the protein coding genes with the highest count values in the libraries. Some of the dominating genes correspond to mitochondrial RNA and ribosomal protein RNA. The plot in the next tab shows the same information but excluding these genes.<br />
+
+<div style="width:700px; height=700px">
+<p><a href="./QC/countingQC//top_expressed_genes_protein_coding.png" rel="" ><img src="QC/countingQC/top_expressed_genes_protein_coding.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+<div id="protein-coding-genes-with-highest-count-value-ii" class="section level3">
+<h3>Protein coding genes with highest count value II</h3>
+This figure shows some of the protein coding genes with the highest count values in the libraries, excluding some mitochondrial and ribosomal protein genes.<br />
+
+<div style="width:700px; height=700px">
+<p><a href="./QC/countingQC//top_expressed_genes_protein_coding_ignore_ribosomal_and_mt.png" rel="" ><img src="QC/countingQC/top_expressed_genes_protein_coding_ignore_ribosomal_and_mt.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+</div>
+</div>
+<div id="sample-clustering" class="section level1">
+<h1>Sample clustering</h1>
+<p>Principal Component Analysis (PCA) plots and heatmaps are based on normalised and rlog transformed counts obtained with DESeq2[7] version 1.24.1 (R version 3.6.1). This normalisation and transformation was performed for all the samples within each of the three comparisons. PCA and heatmaps were plotted for all groups as a whole and also for the separate comparison groups, as shown in the tabsets below.</p>
+<div id="pca" class="section level2">
+<h2>PCA</h2>
+<div id="sample-clustering-1" class="section level3 tabset">
+<h3>Sample clustering</h3>
+<div style="width:700px; height=700px">
+<p><a href="./comparisons/PCA_allSamples_Group.png" rel="" ><img src="comparisons/PCA_allSamples_Group.png" /></a></p>
+</div>
+<p><br><br><br></p>
+<div id="groups-cl19-vs-cl19-ghira" class="section level4">
+<h4>Groups Cl19 vs Cl19 gHira</h4>
+<div style="width:700px; height=700px">
+<p><a href="./comparisons/PCA_Cl19_vs_Cl19_gHira.png" rel="" ><img src="comparisons/PCA_Cl19_vs_Cl19_gHira.png" /></a></p>
+</div>
+<br><br><br><br />
+
+<div style="width:700px; height=700px">
+<p><a href="./comparisons/PCA_no_label_Cl19_vs_Cl19_gHira.png" rel="" ><img src="comparisons/PCA_no_label_Cl19_vs_Cl19_gHira.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+<div id="groups-cl19-vs-fl" class="section level4">
+<h4>Groups Cl19 vs Fl</h4>
+<div style="width:700px; height=700px">
+<p><a href="./comparisons/PCA_Cl19_vs_Fl.png" rel="" ><img src="comparisons/PCA_Cl19_vs_Fl.png" /></a></p>
+</div>
+<br><br><br><br />
+
+<div style="width:700px; height=700px">
+<p><a href="./comparisons/PCA_no_label_Cl19_vs_Fl.png" rel="" ><img src="comparisons/PCA_no_label_Cl19_vs_Fl.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+<div id="groups-fl-vs-fl-ghira" class="section level4">
+<h4>Groups Fl vs Fl gHira</h4>
+<div style="width:700px; height=700px">
+<p><a href="./comparisons/PCA_Fl_vs_Fl_gHira.png" rel="" ><img src="comparisons/PCA_Fl_vs_Fl_gHira.png" /></a></p>
+</div>
+<br><br><br><br />
+
+<div style="width:700px; height=700px">
+<p><a href="./comparisons/PCA_no_label_Fl_vs_Fl_gHira.png" rel="" ><img src="comparisons/PCA_no_label_Fl_vs_Fl_gHira.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+</div>
+<div id="heatmap" class="section level3 tabset">
+<h3>Heatmap</h3>
+<div style="width:700px; height=700px">
+<p><a href="./comparisons/Heatmap_allSamples.png" rel="" ><img src="comparisons/Heatmap_allSamples.png" /></a></p>
+</div>
+<p><br><br><br></p>
+<div id="groups-cl19-vs-cl19-ghira-1" class="section level4">
+<h4>Groups Cl19 vs Cl19 gHira</h4>
+<div style="width:700px; height=700px">
+<p><a href="./comparisons/Heatmap_Cl19_vs_Cl19_gHira.png" rel="" ><img src="comparisons/Heatmap_Cl19_vs_Cl19_gHira.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+<div id="groups-cl19-vs-fl-1" class="section level4">
+<h4>Groups Cl19 vs Fl</h4>
+<div style="width:700px; height=700px">
+<p><a href="./comparisons/Heatmap_Cl19_vs_Fl.png" rel="" ><img src="comparisons/Heatmap_Cl19_vs_Fl.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+<div id="groups-fl-vs-fl-ghira-1" class="section level4">
+<h4>Groups Fl vs Fl gHira</h4>
+<div style="width:700px; height=700px">
+<p><a href="./comparisons/Heatmap_Fl_vs_Fl_gHira.png" rel="" ><img src="comparisons/Heatmap_Fl_vs_Fl_gHira.png" /></a></p>
+</div>
+<p><br><br><br></p>
+</div>
+</div>
+</div>
+</div>
+<div id="differential-gene-expression" class="section level1">
+<h1>Differential gene expression</h1>
+<p>Differential Gene Expression Analysis was done using the counted reads and the R package edgeR [8] version 3.26.5 (R version 3.6.1), for the pairwise comparisons.</p>
+<p>The pipeline used follows the next steps:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Filter genes</strong> with low read counts. In the normal pipeline the number of samples to keep is selected so that at least half of the samples being tested have read counts of over 5 cpm (counts per million). If the groups have uneven numbers of replicates, e.g group A n=3 and group B n=6, the minimum number of samples is determined as the number of samples in the smallest group. In this case that would be 3. This is to ensure we capture genes that are upregulated in one group (on/off scenario).</p></li>
+<li><p><strong>Calculate normalization factors.</strong> EdgeR computes effective library sizes using TMM (i.e <strong>trimmed mean of M-values</strong>) normalization. The normalization factors account for sequencing depth and RNA composition.</p></li>
+<li><p><strong>Correct for GC content and gene length bias</strong> for all genes which pass filtering. GC content bias affects the amplification of fragments, which in turn affects read coverage and could confound true signals so therefore needs to be corrected for. We used the CQN bioconductor package (version 1.30.0) [9] which allows removal of a systematic GC content and gene length bias by a smoothing function. This should ensure that there is no bias towards GC rich reads, compared to those with low GC content. The same applies with gene lengths.</p></li>
+<li><p><strong>Data exploration.</strong> MDS and scatter plots are produced to show sample relationships. MDS plots show distances in terms of BCV (i. e. <strong>biological coefficient of variation</strong>, which represents the square root of the common dispersion described in step 5 below). For both plots, data is filtered and normalised within each comparison group. Scatter plots use normalised and log-2 transformed cpm values.</p></li>
+<li><p><strong>Estimate dispersion of each gene</strong> across samples and <strong>common dispersion</strong>. The common dispersion is the average dispersion across genes. A plot is shown for each comparison. Each genes average log-counts per million across samples (x-axis) is plotted against its coefficient of variation (BCV), so each point (referred to as tagwise in the plot legend) corresponds to a gene. The red line is the common dispersion which indicates the overall, or average, variability in the dataset. The blue line represents the trend of dispersion across all genes.</p></li>
+<li><strong>Perform differential gene expression.</strong> We used the <em>exact test</em> edgeR approach to make pairwise comparisons between groups. We then adjust for multiple testing via the FDR (Benjamini-Hochberg) approach used by edgeR. Please refer to the edgeR documentation to know more about the statistical principles of the procedure [8].<br />
+A table of the top 10 genes is shown for each comparison with the following information:
+<ul>
+<li>Ensembl ID</li>
+<li>Gene name<br />
+</li>
+<li>logFC, which indicates the log (in base 2) difference between the two groups. The baseline group is always the first group in the comparison. The fold change is calculated by taking the average normalised count of the second group minus the average normalised count of the first (baseline) group. For example, if the comparison is A vs B then group A is the baseline group and the logFC is calculated using the following formula: Average(group B samples norm count) - average(group A samples norm count). Note that because we are using log values, this is equivalent to average(group B norm count) /average(group A norm count). A positive logFC value means higher expression in group B's samples (lower in group A's) and a negative logFC means lower expression in group's B samples (higher in group's A). A value of 1 is equivalent to a change of 2 fold, 2 is 4 fold, 3 is 8, etc. Using the value as a power of 2 gives you the <em>real</em> fold change<br />
+</li>
+<li>logCPM, which is the log-average abundance across samples.<br />
+</li>
+<li>P-value for the differential expression test.<br />
+</li>
+<li>FDR, which is the adjusted p-value for multiple testing.<br />
+</li>
+<li>The following columns show the normalised log CPM value for each gene in each sample. These have been appended to the model output results and are <em>not</em> the exact values used by the model to calculate the p-values and logFCs. EdgeR does not allow access to the values they use in the model, which have other factors added to each count for each sample, so the normalised log CPM values we add are the closest we can get to those values.</li>
+</ul></li>
+</ol>
+<p>A link is provided for the full table of results for each comparison. The results are also plotted in MA plots, which show the average log-counts-per-million on the x-axis plotted against the logFC on the y-axis. Normally, blue lines are shown at logFC values of 1 and -1. It is important to consider the FDR together with the log 2 fold change (logFC) to determine a subset of interesting genes.</p>
+<p><strong>A note on the p-value</strong>: in some cases the adjusted p-value will have the same value for several genes, which might look like an error has occurred during the correction. This can happen as a results of how the FDR correction is performed. The correction steps are as follows:</p>
+<pre><code>1. Sort the p-values from low (rank 1) to high (rank N, with N the number of comparisons performed).   
+2. Multiply the p-value by N.
+3. Divide the p-value by its rank.
+4. Check that the rank is kept.</code></pre>
+<p>The last point is the reason why adjusted p-values can share the same value across multiple genes; if the ranks are not kept and a higher ranked gene ends up with a lower adjusted p-value than a lower rank gene, the lower value of the higher ranked gene will also be used for the lower ranked p-value.</p>
+</div>
+<div id="significance-summary" class="section level1">
+<h1>Significance summary</h1>
+<p>The table below shows the number of significant results for your pairwise comparisons.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Comparison</th>
+<th align="center">FDR &lt; 0.01 genes</th>
+<th align="center">FDR &lt; 0.05 genes</th>
+<th align="center">Total genes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Cl19__VS__Cl19_gHira</td>
+<td align="center">3194</td>
+<td align="center">4310</td>
+<td align="center">10634</td>
+</tr>
+<tr class="even">
+<td align="center">Cl19__VS__Fl</td>
+<td align="center">5950</td>
+<td align="center">6932</td>
+<td align="center">10634</td>
+</tr>
+<tr class="odd">
+<td align="center">Fl__VS__Fl_gHira</td>
+<td align="center">8309</td>
+<td align="center">8804</td>
+<td align="center">10749</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="results" class="section level1 tabset">
+<h1>Results</h1>
+<div id="cl19-vs-cl19_ghira" class="section level2 tabset">
+<h2>Cl19 vs Cl19_gHira</h2>
+<p><br> <strong>Simple design. Uses exact test.</strong><br />
+<br></p>
+<div id="bcv-mds" class="section level3">
+<h3>BCV MDS</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Cl19__VS__Cl19_gHira/MDS_Cl19__VS__Cl19_gHira.png" rel="" ><img src="comparisons/Cl19__VS__Cl19_gHira/MDS_Cl19__VS__Cl19_gHira.png" /></a></p>
+</div>
+</div>
+<div id="scatter-plot" class="section level3">
+<h3>Scatter plot</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Cl19__VS__Cl19_gHira/ScatterPlot_Cl19__VS__Cl19_gHira.png" rel="" ><img src="comparisons/Cl19__VS__Cl19_gHira/ScatterPlot_Cl19__VS__Cl19_gHira.png" /></a></p>
+</div>
+</div>
+<div id="dispersion" class="section level3">
+<h3>Dispersion</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Cl19__VS__Cl19_gHira/Dispersion_corrected_Cl19__VS__Cl19_gHira.png" rel="" ><img src="comparisons/Cl19__VS__Cl19_gHira/Dispersion_corrected_Cl19__VS__Cl19_gHira.png" /></a></p>
+</div>
+</div>
+<div id="ma-plot" class="section level3">
+<h3>MA Plot</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Cl19__VS__Cl19_gHira/MAplot_gc_length_corrected_Cl19__VS__Cl19_gHira.png" rel="" ><img src="comparisons/Cl19__VS__Cl19_gHira/MAplot_gc_length_corrected_Cl19__VS__Cl19_gHira.png" /></a></p>
+</div>
+</div>
+<div id="results-1" class="section level3">
+<h3>Results</h3>
+<p><br></p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Number of genes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tested</td>
+<td align="left">10,634</td>
+</tr>
+<tr class="even">
+<td>FDR&lt;= 0.01</td>
+<td align="left">3,194</td>
+</tr>
+<tr class="odd">
+<td>FDR&lt;= 0.05</td>
+<td align="left">4,310</td>
+</tr>
+</tbody>
+</table>
+<p><br><br />
+<br><br />
+<strong>--&gt; LINK TO COMPLETE TABLE OF RESULTS: </strong><a href="./comparisons/Cl19__VS__Cl19_gHira/Results_gc_length_corrected_Cl19__VS__Cl19_gHira.csv">Click here</a><br />
+<br></p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">GeneName</th>
+<th align="center">logFC</th>
+<th align="center">logCPM</th>
+<th align="center">LR</th>
+<th align="center">PValue</th>
+<th align="center">FDR</th>
+<th align="center">Cl19_1_S4</th>
+<th align="center">Cl19_2_S5</th>
+<th align="center">Cl19_3_S6</th>
+<th align="center">Cl19_gHira_1_S10</th>
+<th align="center">Cl19_gHira_2_S11</th>
+<th align="center">Cl19_gHira_3_S12</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ENSMUSG00000074715</td>
+<td align="center">Ccl28</td>
+<td align="center">-4.881</td>
+<td align="center">3.961</td>
+<td align="center">732.1</td>
+<td align="center">3.114e-161</td>
+<td align="center">3.311e-157</td>
+<td align="center">4.847</td>
+<td align="center">4.941</td>
+<td align="center">5.012</td>
+<td align="center">-0.3238</td>
+<td align="center">-0.1744</td>
+<td align="center">0.02269</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000034457</td>
+<td align="center">Eda2r</td>
+<td align="center">3.364</td>
+<td align="center">3.878</td>
+<td align="center">592.7</td>
+<td align="center">6.617e-131</td>
+<td align="center">3.518e-127</td>
+<td align="center">1.535</td>
+<td align="center">1.275</td>
+<td align="center">1.122</td>
+<td align="center">4.749</td>
+<td align="center">4.716</td>
+<td align="center">4.741</td>
+</tr>
+<tr class="odd">
+<td>ENSMUSG00000029086</td>
+<td align="center">Prom1</td>
+<td align="center">-2.668</td>
+<td align="center">5.244</td>
+<td align="center">579.5</td>
+<td align="center">4.707e-128</td>
+<td align="center">1.669e-124</td>
+<td align="center">5.807</td>
+<td align="center">6.11</td>
+<td align="center">6.209</td>
+<td align="center">3.239</td>
+<td align="center">3.253</td>
+<td align="center">3.402</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000014602</td>
+<td align="center">Kif1a</td>
+<td align="center">-2.237</td>
+<td align="center">5.341</td>
+<td align="center">477.2</td>
+<td align="center">8.737e-106</td>
+<td align="center">2.323e-102</td>
+<td align="center">6.157</td>
+<td align="center">5.972</td>
+<td align="center">6.123</td>
+<td align="center">3.874</td>
+<td align="center">3.707</td>
+<td align="center">3.612</td>
+</tr>
+<tr class="odd">
+<td>ENSMUSG00000053024</td>
+<td align="center">Cntn2</td>
+<td align="center">-2.228</td>
+<td align="center">5.638</td>
+<td align="center">449.7</td>
+<td align="center">8.433e-100</td>
+<td align="center">1.794e-96</td>
+<td align="center">6.255</td>
+<td align="center">6.377</td>
+<td align="center">6.485</td>
+<td align="center">4.091</td>
+<td align="center">3.954</td>
+<td align="center">4.183</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000074896</td>
+<td align="center">Ifit3</td>
+<td align="center">-2.377</td>
+<td align="center">4.663</td>
+<td align="center">444.8</td>
+<td align="center">9.799e-99</td>
+<td align="center">1.737e-95</td>
+<td align="center">5.357</td>
+<td align="center">5.438</td>
+<td align="center">5.477</td>
+<td align="center">2.987</td>
+<td align="center">3.072</td>
+<td align="center">2.945</td>
+</tr>
+<tr class="odd">
+<td>ENSMUSG00000031995</td>
+<td align="center">St14</td>
+<td align="center">-1.761</td>
+<td align="center">6.31</td>
+<td align="center">440.1</td>
+<td align="center">1.03e-97</td>
+<td align="center">1.565e-94</td>
+<td align="center">6.856</td>
+<td align="center">6.994</td>
+<td align="center">6.974</td>
+<td align="center">5.182</td>
+<td align="center">5.196</td>
+<td align="center">5.126</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000045394</td>
+<td align="center">Epcam</td>
+<td align="center">-1.917</td>
+<td align="center">6.083</td>
+<td align="center">438.7</td>
+<td align="center">2.083e-97</td>
+<td align="center">2.765e-94</td>
+<td align="center">6.631</td>
+<td align="center">6.797</td>
+<td align="center">6.78</td>
+<td align="center">4.816</td>
+<td align="center">4.918</td>
+<td align="center">4.865</td>
+</tr>
+<tr class="odd">
+<td>ENSMUSG00000031673</td>
+<td align="center">Cdh11</td>
+<td align="center">-3.828</td>
+<td align="center">3.276</td>
+<td align="center">438.5</td>
+<td align="center">2.34e-97</td>
+<td align="center">2.765e-94</td>
+<td align="center">4.109</td>
+<td align="center">4.203</td>
+<td align="center">4.353</td>
+<td align="center">0.2514</td>
+<td align="center">-0.1744</td>
+<td align="center">-0.3586</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000029120</td>
+<td align="center">Ppp2r2c</td>
+<td align="center">-1.695</td>
+<td align="center">6.129</td>
+<td align="center">420.6</td>
+<td align="center">1.787e-93</td>
+<td align="center">1.901e-90</td>
+<td align="center">6.68</td>
+<td align="center">6.843</td>
+<td align="center">6.758</td>
+<td align="center">4.951</td>
+<td align="center">4.995</td>
+<td align="center">5.02</td>
+</tr>
+</tbody>
+</table>
+<p><br><br><br></p>
+</div>
+<div id="library-size" class="section level3">
+<h3>Library size</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Cl19__VS__Cl19_gHira/Libsize_Cl19__VS__Cl19_gHira.png" rel="" ><img src="comparisons/Cl19__VS__Cl19_gHira/Libsize_Cl19__VS__Cl19_gHira.png" /></a></p>
+</div>
+</div>
+<div id="volcano-plot" class="section level3">
+<h3>Volcano plot</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Cl19__VS__Cl19_gHira/volcano_gc/Volcano_Cl19_vs_Cl19_gHira.png" rel="" ><img src="comparisons/Cl19__VS__Cl19_gHira/volcano_gc/Volcano_Cl19_vs_Cl19_gHira.png" /></a></p>
+</div>
+<p><br><br />
+<strong>--&gt; LINK TO INTERACTIVE VOLCANO: </strong><a href="./comparisons/Cl19__VS__Cl19_gHira/volcano_gc/interactive_Cl19_vs_Cl19_gHira/Volcano_Cl19_vs_Cl19_gHira_interactive.html">Click here</a></p>
+</div>
+</div>
+<div id="cl19-vs-fl" class="section level2 tabset">
+<h2>Cl19 vs Fl</h2>
+<p><br> <strong>Simple design. Uses exact test.</strong><br />
+<br></p>
+<div id="bcv-mds-1" class="section level3">
+<h3>BCV MDS</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Cl19__VS__Fl/MDS_Cl19__VS__Fl.png" rel="" ><img src="comparisons/Cl19__VS__Fl/MDS_Cl19__VS__Fl.png" /></a></p>
+</div>
+</div>
+<div id="scatter-plot-1" class="section level3">
+<h3>Scatter plot</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Cl19__VS__Fl/ScatterPlot_Cl19__VS__Fl.png" rel="" ><img src="comparisons/Cl19__VS__Fl/ScatterPlot_Cl19__VS__Fl.png" /></a></p>
+</div>
+</div>
+<div id="dispersion-1" class="section level3">
+<h3>Dispersion</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Cl19__VS__Fl/Dispersion_corrected_Cl19__VS__Fl.png" rel="" ><img src="comparisons/Cl19__VS__Fl/Dispersion_corrected_Cl19__VS__Fl.png" /></a></p>
+</div>
+</div>
+<div id="ma-plot-1" class="section level3">
+<h3>MA Plot</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Cl19__VS__Fl/MAplot_gc_length_corrected_Cl19__VS__Fl.png" rel="" ><img src="comparisons/Cl19__VS__Fl/MAplot_gc_length_corrected_Cl19__VS__Fl.png" /></a></p>
+</div>
+</div>
+<div id="results-2" class="section level3">
+<h3>Results</h3>
+<p><br></p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Number of genes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tested</td>
+<td align="left">10,749</td>
+</tr>
+<tr class="even">
+<td>FDR&lt;= 0.01</td>
+<td align="left">5,950</td>
+</tr>
+<tr class="odd">
+<td>FDR&lt;= 0.05</td>
+<td align="left">6,932</td>
+</tr>
+</tbody>
+</table>
+<p><br><br />
+<br><br />
+<strong>--&gt; LINK TO COMPLETE TABLE OF RESULTS: </strong><a href="./comparisons/Cl19__VS__Fl/Results_gc_length_corrected_Cl19__VS__Fl.csv">Click here</a><br />
+<br></p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">GeneName</th>
+<th align="center">logFC</th>
+<th align="center">logCPM</th>
+<th align="center">LR</th>
+<th align="center">PValue</th>
+<th align="center">FDR</th>
+<th align="center">Cl19_1_S4</th>
+<th align="center">Cl19_2_S5</th>
+<th align="center">Cl19_3_S6</th>
+<th align="center">Fl_1_S1</th>
+<th align="center">Fl_2_S2</th>
+<th align="center">Fl_3_S3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ENSMUSG00000029108</td>
+<td align="center">Pcdh7</td>
+<td align="center">-7.89</td>
+<td align="center">5.113</td>
+<td align="center">1504</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">6.029</td>
+<td align="center">6.057</td>
+<td align="center">6.25</td>
+<td align="center">-2.351</td>
+<td align="center">-2.495</td>
+<td align="center">-2.099</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000033491</td>
+<td align="center">Prss35</td>
+<td align="center">-7.448</td>
+<td align="center">5.996</td>
+<td align="center">1988</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">6.837</td>
+<td align="center">7.02</td>
+<td align="center">7.112</td>
+<td align="center">-0.7431</td>
+<td align="center">-0.9243</td>
+<td align="center">-0.9569</td>
+</tr>
+<tr class="odd">
+<td>ENSMUSG00000016024</td>
+<td align="center">Lbp</td>
+<td align="center">-7.15</td>
+<td align="center">6.037</td>
+<td align="center">2030</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">6.916</td>
+<td align="center">7.072</td>
+<td align="center">7.11</td>
+<td align="center">-0.1921</td>
+<td align="center">-1.023</td>
+<td align="center">-1.342</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000029636</td>
+<td align="center">Wasf3</td>
+<td align="center">6.471</td>
+<td align="center">4.737</td>
+<td align="center">1684</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">-0.2726</td>
+<td align="center">-0.3011</td>
+<td align="center">-0.1909</td>
+<td align="center">5.7</td>
+<td align="center">5.748</td>
+<td align="center">5.667</td>
+</tr>
+<tr class="odd">
+<td>ENSMUSG00000028364</td>
+<td align="center">Tnc</td>
+<td align="center">5.646</td>
+<td align="center">5.228</td>
+<td align="center">1938</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1.484</td>
+<td align="center">1.399</td>
+<td align="center">1.75</td>
+<td align="center">6.251</td>
+<td align="center">6.146</td>
+<td align="center">6.087</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000029671</td>
+<td align="center">Wnt16</td>
+<td align="center">-5.215</td>
+<td align="center">5.672</td>
+<td align="center">1799</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">6.686</td>
+<td align="center">6.606</td>
+<td align="center">6.645</td>
+<td align="center">1.293</td>
+<td align="center">0.7785</td>
+<td align="center">1.167</td>
+</tr>
+<tr class="odd">
+<td>ENSMUSG00000026413</td>
+<td align="center">Pkp1</td>
+<td align="center">5.187</td>
+<td align="center">4.932</td>
+<td align="center">1616</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1.614</td>
+<td align="center">1.774</td>
+<td align="center">1.83</td>
+<td align="center">5.836</td>
+<td align="center">5.823</td>
+<td align="center">5.873</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000026069</td>
+<td align="center">Il1rl1</td>
+<td align="center">5.05</td>
+<td align="center">6.877</td>
+<td align="center">2045</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2.968</td>
+<td align="center">3.044</td>
+<td align="center">3.079</td>
+<td align="center">7.845</td>
+<td align="center">7.841</td>
+<td align="center">7.785</td>
+</tr>
+<tr class="odd">
+<td>ENSMUSG00000003617</td>
+<td align="center">Cp</td>
+<td align="center">-3.812</td>
+<td align="center">6.483</td>
+<td align="center">1631</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">7.413</td>
+<td align="center">7.313</td>
+<td align="center">7.453</td>
+<td align="center">3.496</td>
+<td align="center">3.488</td>
+<td align="center">3.392</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000022265</td>
+<td align="center">Ank</td>
+<td align="center">-3.701</td>
+<td align="center">7.007</td>
+<td align="center">1534</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">7.728</td>
+<td align="center">7.98</td>
+<td align="center">8.014</td>
+<td align="center">4.115</td>
+<td align="center">4.02</td>
+<td align="center">4.026</td>
+</tr>
+</tbody>
+</table>
+<p><br><br><br></p>
+</div>
+<div id="library-size-1" class="section level3">
+<h3>Library size</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Cl19__VS__Fl/Libsize_Cl19__VS__Fl.png" rel="" ><img src="comparisons/Cl19__VS__Fl/Libsize_Cl19__VS__Fl.png" /></a></p>
+</div>
+</div>
+<div id="volcano-plot-1" class="section level3">
+<h3>Volcano plot</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Cl19__VS__Fl/volcano_gc/Volcano_Cl19_vs_Fl.png" rel="" ><img src="comparisons/Cl19__VS__Fl/volcano_gc/Volcano_Cl19_vs_Fl.png" /></a></p>
+</div>
+<p><br><br />
+<strong>--&gt; LINK TO INTERACTIVE VOLCANO: </strong><a href="./comparisons/Cl19__VS__Fl/volcano_gc/interactive_Cl19_vs_Fl/Volcano_Cl19_vs_Fl_interactive.html">Click here</a></p>
+</div>
+</div>
+<div id="fl-vs-fl_ghira" class="section level2 tabset">
+<h2>Fl vs Fl_gHira</h2>
+<p><br> <strong>Simple design. Uses exact test.</strong><br />
+<br></p>
+<div id="bcv-mds-2" class="section level3">
+<h3>BCV MDS</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Fl__VS__Fl_gHira/MDS_Fl__VS__Fl_gHira.png" rel="" ><img src="comparisons/Fl__VS__Fl_gHira/MDS_Fl__VS__Fl_gHira.png" /></a></p>
+</div>
+</div>
+<div id="scatter-plot-2" class="section level3">
+<h3>Scatter plot</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Fl__VS__Fl_gHira/ScatterPlot_Fl__VS__Fl_gHira.png" rel="" ><img src="comparisons/Fl__VS__Fl_gHira/ScatterPlot_Fl__VS__Fl_gHira.png" /></a></p>
+</div>
+</div>
+<div id="dispersion-2" class="section level3">
+<h3>Dispersion</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Fl__VS__Fl_gHira/Dispersion_corrected_Fl__VS__Fl_gHira.png" rel="" ><img src="comparisons/Fl__VS__Fl_gHira/Dispersion_corrected_Fl__VS__Fl_gHira.png" /></a></p>
+</div>
+</div>
+<div id="ma-plot-2" class="section level3">
+<h3>MA Plot</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Fl__VS__Fl_gHira/MAplot_gc_length_corrected_Fl__VS__Fl_gHira.png" rel="" ><img src="comparisons/Fl__VS__Fl_gHira/MAplot_gc_length_corrected_Fl__VS__Fl_gHira.png" /></a></p>
+</div>
+</div>
+<div id="results-3" class="section level3">
+<h3>Results</h3>
+<p><br></p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Number of genes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tested</td>
+<td align="left">10,469</td>
+</tr>
+<tr class="even">
+<td>FDR&lt;= 0.01</td>
+<td align="left">8,309</td>
+</tr>
+<tr class="odd">
+<td>FDR&lt;= 0.05</td>
+<td align="left">8,804</td>
+</tr>
+</tbody>
+</table>
+<p><br><br />
+<br><br />
+<strong>--&gt; LINK TO COMPLETE TABLE OF RESULTS: </strong><a href="./comparisons/Fl__VS__Fl_gHira/Results_gc_length_corrected_Fl__VS__Fl_gHira.csv">Click here</a><br />
+<br></p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">GeneName</th>
+<th align="center">logFC</th>
+<th align="center">logCPM</th>
+<th align="center">LR</th>
+<th align="center">PValue</th>
+<th align="center">FDR</th>
+<th align="center">Fl_1_S1</th>
+<th align="center">Fl_2_S2</th>
+<th align="center">Fl_3_S3</th>
+<th align="center">Fl_gHira_1_S7</th>
+<th align="center">Fl_gHira_2_S8</th>
+<th align="center">Fl_gHira_3_S9</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ENSMUSG00000069049</td>
+<td align="center">Eif2s3y</td>
+<td align="center">-13.27</td>
+<td align="center">4.319</td>
+<td align="center">2987</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">5.267</td>
+<td align="center">5.336</td>
+<td align="center">5.208</td>
+<td align="center">-3.776</td>
+<td align="center">-3.776</td>
+<td align="center">-3.776</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000000094</td>
+<td align="center">Tbx4</td>
+<td align="center">10.41</td>
+<td align="center">2.598</td>
+<td align="center">1575</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">-3.267</td>
+<td align="center">-3.776</td>
+<td align="center">-3.776</td>
+<td align="center">3.713</td>
+<td align="center">3.466</td>
+<td align="center">3.7</td>
+</tr>
+<tr class="odd">
+<td>ENSMUSG00000058252</td>
+<td align="center">Tcp11x2</td>
+<td align="center">10.2</td>
+<td align="center">2.822</td>
+<td align="center">2195</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">-3.776</td>
+<td align="center">-2.807</td>
+<td align="center">-3.776</td>
+<td align="center">3.816</td>
+<td align="center">3.784</td>
+<td align="center">3.954</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000053024</td>
+<td align="center">Cntn2</td>
+<td align="center">-8.843</td>
+<td align="center">7.212</td>
+<td align="center">4826</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">8.229</td>
+<td align="center">8.209</td>
+<td align="center">8.149</td>
+<td align="center">-2.328</td>
+<td align="center">-2.172</td>
+<td align="center">-2.411</td>
+</tr>
+<tr class="odd">
+<td>ENSMUSG00000070473</td>
+<td align="center">Cldn3</td>
+<td align="center">-8.763</td>
+<td align="center">6.481</td>
+<td align="center">4319</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">7.483</td>
+<td align="center">7.385</td>
+<td align="center">7.505</td>
+<td align="center">-1.819</td>
+<td align="center">-1.88</td>
+<td align="center">-2.65</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000029120</td>
+<td align="center">Ppp2r2c</td>
+<td align="center">-8.493</td>
+<td align="center">6.899</td>
+<td align="center">4773</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">7.882</td>
+<td align="center">7.836</td>
+<td align="center">7.925</td>
+<td align="center">-1.444</td>
+<td align="center">-2.537</td>
+<td align="center">-2.938</td>
+</tr>
+<tr class="odd">
+<td>ENSMUSG00000045394</td>
+<td align="center">Epcam</td>
+<td align="center">-8.444</td>
+<td align="center">7.237</td>
+<td align="center">6480</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">8.248</td>
+<td align="center">8.164</td>
+<td align="center">8.252</td>
+<td align="center">-1.147</td>
+<td align="center">-2.172</td>
+<td align="center">-1.722</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000023011</td>
+<td align="center">Faim2</td>
+<td align="center">8.205</td>
+<td align="center">3.764</td>
+<td align="center">5352</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">-1.789</td>
+<td align="center">-1.127</td>
+<td align="center">-1.34</td>
+<td align="center">4.814</td>
+<td align="center">4.796</td>
+<td align="center">4.775</td>
+</tr>
+<tr class="odd">
+<td>ENSMUSG00000018569</td>
+<td align="center">Cldn7</td>
+<td align="center">-7.927</td>
+<td align="center">6.446</td>
+<td align="center">4196</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">7.467</td>
+<td align="center">7.389</td>
+<td align="center">7.408</td>
+<td align="center">-1.819</td>
+<td align="center">-1.638</td>
+<td align="center">-1.722</td>
+</tr>
+<tr class="even">
+<td>ENSMUSG00000040728</td>
+<td align="center">Esrp1</td>
+<td align="center">-7.645</td>
+<td align="center">6.171</td>
+<td align="center">3228</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">7.144</td>
+<td align="center">7.159</td>
+<td align="center">7.132</td>
+<td align="center">-2.051</td>
+<td align="center">-2.172</td>
+<td align="center">-2.205</td>
+</tr>
+</tbody>
+</table>
+<p><br><br><br></p>
+</div>
+<div id="library-size-2" class="section level3">
+<h3>Library size</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Fl__VS__Fl_gHira/Libsize_Fl__VS__Fl_gHira.png" rel="" ><img src="comparisons/Fl__VS__Fl_gHira/Libsize_Fl__VS__Fl_gHira.png" /></a></p>
+</div>
+</div>
+<div id="volcano-plot-2" class="section level3">
+<h3>Volcano plot</h3>
+<div style="width:600px; height=600px">
+<p><a href="./comparisons/Fl__VS__Fl_gHira/volcano_gc/Volcano_Fl_vs_Fl_gHira.png" rel="" ><img src="comparisons/Fl__VS__Fl_gHira/volcano_gc/Volcano_Fl_vs_Fl_gHira.png" /></a></p>
+</div>
+<p><br><br />
+<strong>--&gt; LINK TO INTERACTIVE VOLCANO: </strong><a href="./comparisons/Fl__VS__Fl_gHira/volcano_gc/interactive_Fl_vs_Fl_gHira/Volcano_Fl_vs_Fl_gHira_interactive.html">Click here</a></p>
+</div>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>[1] S Andrews et al. Fastqc: A quality control tool for high throughput sequence data. Reference Source, 2010.</p>
+<p>[2] F Krueger. Trim galore. A wrapper tool around Cutadapt and FastQC to consistently apply quality and adapter trimming to FastQ files, with some extra functionality for MspI-digested RRBS-type (Reduced Representation Bisufite- Seq) libraries, 2013.</p>
+<p>[3] Alexander Dobin, Carrie A Davis, Felix Schlesinger, Jorg Drenkow, Chris Zaleski, Sonali Jha, Philippe Batut, Mark Chaisson, and Thomas R Gingeras. Star: ultrafast universal rna-seq aligner. Bioinformatics, 29(1):1521, 2013.</p>
+<p>[4] Alec Wysoker, Kathleen Tibbetts, and Tim Fennell. Picard tools version 1.90. <a href="http://picard.sourceforge.net" class="uri">http://picard.sourceforge.net</a>, 2013.</p>
+<p>[5] Liguo Wang, Shengqin Wang, and Wei Li. Rseqc: quality control of rna-seq experiments. Bioinformatics, 28(16):21842185, 2012.</p>
+<p>[6] Simon Anders, Paul Theodor Pyl, and Wolfgang Huber. Htseqa python framework to work with high-throughput sequencing data. Bioinformatics, 31(2):166169, 2015.</p>
+<p>[7] Love MI, Huber W and Anders S (2014). Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. Genome Biology, 15, pp. 550. doi: 10.1186/s13059-014-0550-8.</p>
+<p>[8] Mark D Robinson, Davis J McCarthy, and Gordon K Smyth. edger: a bioconductor package for differential expression analysis of digital gene expression data. Bioinformatics, 26(1):139140, 2010.</p>
+<p>[9] Hansen KD, Irizarry RA and Wu Z (2012). Removing technical variability in RNA-seq data using conditional quantile normalization. Biostatistics, 13(2), pp. 204216.</p>
+</div>
+<div id="analysis-details" class="section level1">
+<h1>Analysis details</h1>
+<div id="tool-arguments" class="section level2">
+<h2>Tool arguments</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Tool</th>
+<th align="left">Arguments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">TrimGalore</td>
+<td align="left">--illumina; --gzip; --fastqc; --fastqc_args '--nogroup --extract'</td>
+</tr>
+<tr class="even">
+<td align="left">STAR</td>
+<td align="left">--runThreadN 4; --outSAMtype BAM SortedByCoordinate; --readFilesCommand zcat</td>
+</tr>
+<tr class="odd">
+<td align="left">HTSeq</td>
+<td align="left">-a 10; -m union; -s reverse; -t exon</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="reference-fasta-file" class="section level2">
+<h2>Reference fasta file</h2>
+<p><a href="http://ftp.ensembl.org/pub/release-103/fasta/mus_musculus/dna/Mus_musculus.GRCm39.dna.primary_assembly.fa.gz" class="uri">http://ftp.ensembl.org/pub/release-103/fasta/mus_musculus/dna/Mus_musculus.GRCm39.dna.primary_assembly.fa.gz</a></p>
+</div>
+<div id="gene-model-reference-gtf-file" class="section level2">
+<h2>Gene model reference (GTF file)</h2>
+<p><a href="http://ftp.ensembl.org/pub/release-103/gtf/mus_musculus/Mus_musculus.GRCm39.103.gtf.gz" class="uri">http://ftp.ensembl.org/pub/release-103/gtf/mus_musculus/Mus_musculus.GRCm39.103.gtf.gz</a></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
