@@ -162,9 +162,6 @@ dim(countdata)
 # first lets check that our rows and columns match
 all(sampleinfo_TvWT$GSM_SampleID == colnames(countdata))
 
-# Safe the raw count matrix:
-write.csv(countdata, "OutputData_Patients_GSE157256/Filtered_RawCountMatrix_GSE157256.csv")
-
 # Create a DESeqDataSet object with the raw data:
 # Convert the counts to DESeqDataSet Object. It is an object used by `DESeq2` to store count data -->It has a number of slots for storing count data, sample information, the model design for the differential expression analysis, and various other parameters about the data
 ddsObj.raw <- DESeqDataSetFromMatrix(countData = countdata,
