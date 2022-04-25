@@ -3,9 +3,10 @@
 The notebook contains:
 1. DESeq2 analysis and GSEA using HLRCC patients data comparing tumour versus normal published as part of the paper of Crooks et. al. 2021 (https://pubmed.ncbi.nlm.nih.gov/33402335/).
 2. GSEA using transcriptomics data from mouse cells of Lorea Valcarcel-Jimenez et al (under revision).
+3. Transcription factor (TF) analysis using transcriptomics data from mouse cells of Lorea Valcarcel-Jimenez et al (under revision).
 
 ## Reproducibility
-Code for the R analysis can be reproduced by following the script in `Patients_GSE157256.Rmd` and `MouseCells.Rmd`. These include the DESeq2 analysis, GSEA and visualisations.
+Code for the R analysis can be reproduced by following the script in `Patients_GSE157256.Rmd`, `MouseCells.Rmd` and `TranscriptionFactorAnalysis.Rmd`. These include the DESeq2 analysis, GSEA, TF analysis and visualisations.
 
 Signatures used for pathway analysis where downloaded from MSigDB (https://www.gsea-msigdb.org/gsea/msigdb) apart from `EMT-signature.csv`, which was downloaded directly from the publication of Taube et al. 2010 (https://pubmed.ncbi.nlm.nih.gov/20713713/), and safed in the folder `"Input_MSigDB_Signatures"`.
 
@@ -22,21 +23,22 @@ After performing DESeq2 analysis and GSEA the results are safed in the folder `"
 2. GSEA results: `GSEA_result_KEGG-Hallmark-Reactome-Biocarta-NRF2-EMT_Patients_GSE157256.csv`
 
 ### Transcriptomics data Lorea Valcarcel-Jimenez et al:
-The RNA-seq data of the mouse cells will be deposited with the manuscript and I will update this section and provide the accession number. Differential expression analysis has been performed by the Cambridge Genomic Services, Department of Pathology, University of Cambridge prior to this analysis and the details can be found in the file `NGS-L.Valcarcel-40680-report.html` proviced by the Cambridge Genomic Services and in the methods section of the manuscript of Lorea Valcarcel-Jimenez et al (under revision). Input data will be available upon publication in the folder `"InputData_MouseCells"`:
+The RNA-seq data of the mouse cells will be deposited with the manuscript and I will update this section and provide the accession number. Differential expression analysis has been performed by the Cambridge Genomic Services, Department of Pathology, University of Cambridge prior to this analysis and the details can be found in the file `NGS-L.Valcarcel-40680-report.html` provided by the Cambridge Genomic Services and in the methods section of the manuscript of Lorea Valcarcel-Jimenez et al (under revision). Input data will be available upon publication in the folder `"InputData_MouseCells"`:
 
 1.`Results_gc_length_corrected_Cl19__VS__Cl19_gHira.csv`
-
 2.`Results_gc_length_corrected_Fl__VS__Fl_gHira.csv`
-
 3.`Results_gc_length_corrected_Fl__VS__Cl19.csv`
 
 After performing GSEA the results will be safed in the folder `"OutputData_MouseCells`upon publication:
 
 1.`GSEA_result_KEGG-Hallmark-Reactome-Biocarta-NRF2-EMT_HIRAvCL19_.csv`
-
 2.`GSEA_result_KEGG-Hallmark-Reactome-Biocarta-NRF2-EMT_HIRAvsFL_.csv`
-
 3.`GSEA_result_KEGG-Hallmark-Reactome-Biocarta-NRF2-EMT_CL19vFL_.csv`
+
+After performing the TF analysis the results will be safed in the folder `"OutputData_TF-Analysis`upon publication:
+
+1. `TF-Analysis_HIRAvCL19.csv`
+2. `TF-Analysis_FlxvCL19.csv`
 
 ## Figures
 Generated figures can be found in the html files or in the folders `"Figures_Patients_GSE157256"` and `"Figures_MouseCells"`
