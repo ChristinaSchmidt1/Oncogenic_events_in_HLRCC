@@ -1,0 +1,288 @@
+---
+title: "TF-analysis"
+author: "Christina Schmidt"
+date: "4/21/2022"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+---
+```{r, message=FALSE, warning=FALSE}
+#packages <- c("dorothea", "viper", "dplyr")
+#install.packages(setdiff(packages, rownames(installed.packages())))
+ 
+library(tidyverse) # used for data manipulation
+library(dplyr)# used for data manipulation
+library(rmarkdown) # used for paged_table function
+
+library(gtools)#used for "foldchange"
+
+library(dorothea)
+library(viper)
+```
+
+# Introduction - Dataset
+## Mouse
+Here we use the EdgeR normalised count data of the RNAseq provided by the Cambridge Genomic Services, Department of Pathology, University of Cambridge.\
+```{r, message=FALSE, warning=FALSE}
+#------------------------------Set up the DF
+# Load the RNAseq data and remove duplicated gene names (Here we need the count matrix!)
+HIRAvCL19 <- read.csv("InputData_MouseCells/Results_gc_length_corrected_Cl19__VS__Cl19_gHira.csv", header=TRUE)%>%
+  rename("symbol" ="GeneName",
+         "log2FoldChange"="logFC",
+         "gHira_1_S10"="Cl19_gHira_1_S10",#Needs to be renamed, otherwise we can not select for the conditions using e.g. select(matches("Cl19"))
+         "gHira_2_S11"="Cl19_gHira_2_S11",
+         "gHira_3_S12"="Cl19_gHira_3_S12")
+
+FlxvCL19 <- read.csv("InputData_MouseCells/Results_gc_length_corrected_Fl__VS__Cl19.csv", header=TRUE)%>%
+  rename("symbol" ="GeneName",
+         "log2FoldChange"="logFC")
+
+#Remove duplicated genes: Function 
+RemoveDublons <-function(MyData){
+  MyData <- MyData[complete.cases(MyData),] 
+  doublons <- as.character(MyData[duplicated(MyData$symbol),"symbol"])
+  print("Number of duplicated genes:")
+  print(length(doublons))
+  # Keep the entry with the greatest Log2FC:
+  MyData$absLogFC <- abs(MyData$log2FoldChange)
+  MyData <- MyData[ order(MyData$absLogFC), ]
+  MyData_Select <- MyData[!duplicated(MyData$symbol),]
+  #Output
+  OutputFileName <-  MyData_Select
+}
+
+#Remove duplications and create input matrix
+HIRAvCL19_ND <- RemoveDublons(MyData= HIRAvCL19)
+rownames(HIRAvCL19_ND) <- HIRAvCL19_ND$symbol
+HIRAvCL19_ND_Matrix <- as.matrix(HIRAvCL19_ND[,8:13])
+
+FlxvCL19_ND <- RemoveDublons(MyData= FlxvCL19)
+rownames(FlxvCL19_ND) <- FlxvCL19_ND$symbol
+FlxvCL19_ND_Matrix <- as.matrix(FlxvCL19_ND[,8:13])
+```
+
+# TF analysis
+We perform transcription factor analysis using [dorothea](https://bioconductor.org/packages/release/data/experiment/html/dorothea.html), a collecion of human and mouse TF regulons, where we use the confidence "A". Next we use [viper](https://www.bioconductor.org/packages/release/bioc/html/viper.html) "Virtual Inference of Protein-activity by Enriched Regulon analysis" [(Paper)](https://www.nature.com/articles/ng.3593.pdf).
+
+```{r, message=FALSE, warning=FALSE}
+#------------------------------Load collecion of human and mouse TF regulons
+# Acessing mouse adorothea regulons: 
+data(dorothea_mm, package = "dorothea")
+
+# Only keep the once you are interested in from  c("A", "B", "C", "D"). Here we want to be stringent and focus on A only!
+regulons_mm <- dorothea_mm %>%
+  filter(confidence %in% c("A"))
+
+## -------------------------- Run viper and make comparison
+#Establish function:
+TF_Analysis <- function(InputMatix, regulons, method="scale", calcDiff=FALSE, Condition1=NULL, Condition2=NULL, Stat_pval=t.test, STAT_padj= "BH", outputFileName){
+  #Run viper and make comparison
+  tf_activities <- as.data.frame(run_viper(input=InputMatix,
+                                regulons= regulons_mm, 
+                                options = list(method = "scale",#Character string indicating the method for computing the single samples signature, either scale, rank, mad, ttest or none
+                                          minsize = 1,#Integer indicating the minimum number of targets allowed per regulon
+                                          nes = TRUE,#Logical, whether the enrichment score reported should be normalized
+                                          eset.filter = FALSE,#Logical, whether the dataset should be limited only to the genes represented in the interactome
+                                          cores = 1,#Integer indicating the number of cores to use (only 1 in Windows-based systems)
+                                          verbose = FALSE)))#Logical, whether progression messages should be printed in the terminal
+  TF_DF <- tf_activities
+
+  #Calculate the difference between the conditions:
+  if (calcDiff) {
+  ##Mean
+  Mean_Condition1 <- tf_activities%>%
+    select(matches(paste(Condition1)))%>%#https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html
+    rowMeans()
+  Mean_Condition2 <- tf_activities%>%
+    select(matches(paste(Condition2)))%>%
+    rowMeans()
+  ##Distance
+  Mean_TFChange <- Mean_Condition1 - Mean_Condition2 # The mean change in activity as predicted by doro
+  #Stats
+  Stat_Condition1 <- tf_activities%>%
+   select(matches(paste(Condition1)))
+  Stat_Condition2 <- tf_activities%>%
+   select(matches(paste(Condition2)))
+  Pval_C1vC2 <-mapply(Stat_pval, x= as.data.frame(t(Stat_Condition2)), y = as.data.frame(t(Stat_Condition1)), SIMPLIFY = FALSE)
+  p.val <- c()
+    for(i in 1:length(Pval_C1vC2)){
+      p.value <- unlist(Pval_C1vC2[[i]]["p.value"])
+     p.val[i] <- p.value
+    }
+  p.adj <- p.adjust(p.val,method = STAT_padj, n = length(p.val))
+  ##Combine results
+  TF_DF<- data.frame(tf_activities, Mean_Condition1, Mean_Condition2, Mean_TFChange ,p.val,p.adj, stringsAsFactors=FALSE)
+  names(TF_DF)[names(TF_DF) == 'Mean_Condition1'] <- paste("Mean_", Condition1)
+    names(TF_DF)[names(TF_DF) == 'Mean_Condition2'] <- paste("Mean_", Condition2)
+  }
+  
+  TF_DF<- TF_DF%>%
+    rownames_to_column("TF")
+  #Safe
+  #if (calcDiff) {
+  #write.csv(TF_DF, paste("OutputData_TF-Analysis/TF-Analysis_", Condition1, "vs", Condition2,".csv"), row.names = FALSE)
+  #}
+  #else{
+   #  write.csv(TF_DF, outputFileName , row.names = FALSE)
+  #}
+  return(TF_DF)
+}
+
+#Run function
+TF_HIRAvCL19 <- TF_Analysis(InputMatix=HIRAvCL19_ND_Matrix,
+                    regulons= regulons_mm,
+                    method="scale",
+                    calcDiff=TRUE, 
+                    Condition1="gHIRA", 
+                    Condition2="Cl19", 
+                    Stat_pval=t.test,
+                    STAT_padj= "BH",
+                    outputFileName = NULL)%>%
+  rename("Cl19_gHira_1_S10"="gHira_1_S10",
+         "Cl19_gHira_2_S11"="gHira_2_S11",
+         "Cl19_gHira_3_S12"="gHira_3_S12")
+write.csv(TF_HIRAvCL19,"OutputData_TF-Analysis/TF-Analysis_HIRAvCL19.csv", row.names = FALSE)
+
+TF_FlxvCL19 <- TF_Analysis(InputMatix=FlxvCL19_ND_Matrix,
+                    regulons= regulons_mm,
+                    method="scale",
+                    calcDiff=TRUE, 
+                    Condition1="Cl19", 
+                    Condition2="Fl", 
+                    Stat_pval=t.test,
+                    STAT_padj= "BH",
+                    outputFileName = NULL)
+write.csv(TF_FlxvCL19,"OutputData_TF-Analysis/TF-Analysis_FlxvCL19.csv", row.names = FALSE)
+
+```
+
+# Visualisation
+## Volcano plot
+```{r, message=FALSE, warning=FALSE}
+library(ggrepel)
+library(EnhancedVolcano)#volcanoPlot package
+
+VolcanoPlot_General <- function(Input, OutputName){
+  VolcanoPlot <- EnhancedVolcano (Input,
+                lab = Input$TF,#Metabolite name
+                x = "Mean_TFChange",#Log2FC
+                y = "p.val",#p-value or q-value
+                xlab = "Mean TF Change",
+                ylab = bquote(~-Log[10]~`p.val`),#(~-Log[10]~adjusted~italic(P))
+                pCutoff = 0.05,
+                FCcutoff = 0.5,#Cut off Log2FC, automatically 2
+                pointSize = 4,
+                labSize = 1.5,
+                titleLabSize = 16,
+                col=c("black", "grey", "grey", "red"),#if you want to change colors
+                colAlpha = 0.5,
+                title=paste(OutputName),
+                subtitle = "Transcription Factor analysis",
+                caption = paste0("total = ", nrow(Input)/2, " TF's"),
+                xlim = c((((Reduce(min,Input$Mean_TFChange))))-0.5,(((Reduce(max,Input$Mean_TFChange))))+0.5),
+                ylim = c(0,((-log10(Reduce(min,Input$p.val))))+0.1),
+                #drawConnectors = TRUE,
+                #widthConnectors = 0.5,
+                #colConnectors = "black",
+                cutoffLineType = "dashed",
+                cutoffLineCol = "black",
+                cutoffLineWidth = 0.5,
+                legendPosition = 'right',
+                legendLabSize = 12,
+                legendIconSize = 5.0
+                )
+  ggsave(file=paste("Figures_MouseCells/TF analysis/VolcanoPlot", OutputName, ".pdf", sep="_"), plot=VolcanoPlot, width=10, height=8)
+ plot(VolcanoPlot)
+}
+
+VolcanoPlot_General(Input=TF_HIRAvCL19,
+                    OutputName="HIRAvCL19")
+
+VolcanoPlot_General(Input=TF_FlxvCL19,
+                    OutputName="FlxvCL19")
+```
+
+## Lollipop graph
+Here we only show significant (p.val < 0.05).
+```{r, message=FALSE, warning=FALSE}
+# Select the TF's to plot:
+TF_HIRAvCL19_Select <- TF_HIRAvCL19%>%
+  subset(p.val <=0.05)
+TF_HIRAvCL19_Select$p.val_round <- round(TF_HIRAvCL19_Select$p.val, 4)
+TF_HIRAvCL19_Select$absMean_TFChange <- abs(TF_HIRAvCL19_Select$Mean_TFChange) 
+
+TF_FlxvCL19_Select <- TF_FlxvCL19%>%
+  subset(p.val <=0.05)
+TF_FlxvCL19_Select$p.val_round <- round(TF_FlxvCL19_Select$p.val, 4)
+TF_FlxvCL19_Select$absMean_TFChange <- abs(TF_FlxvCL19_Select$Mean_TFChange) 
+
+#----------------------------------------------
+#Make the plot:
+library(ggplot2)
+library(viridisLite)
+library(viridis)
+
+#-----------
+Dotplot <-ggplot(TF_HIRAvCL19_Select, aes(x=reorder(TF, + Mean_TFChange), y=Mean_TFChange, label=p.val_round)) + 
+    geom_point(stat='identity', aes(size= absMean_TFChange, col=p.val))  +
+    scale_color_viridis(option="C", "p.val")+
+    scale_fill_viridis(option="C","p.val")+
+    geom_segment(aes(y = 0, 
+                   x = TF, 
+                   yend = Mean_TFChange,
+                   xend = TF), 
+               color = "black") +
+   scale_size(name="Mean TF Change",range = c(2,16))+
+    geom_text(color="black", size=2) +
+    labs(title="TF analysis: dorothea regulon A",
+        subtitle="HIRA Cl19 versus Cl19",
+        caption="*Threshold: p.val<0.05") + 
+    #ylim(-2.5,2.5) +
+    theme_bw() +
+    coord_flip()+
+    theme(plot.title = element_text(color = "black", size = 12, face = "bold"),
+          plot.subtitle = element_text(color = "black", size=10),
+          plot.caption = element_text(color = "black",size=9, face = "italic", hjust = 2.5))+
+    labs(y="Mean TF Change (HIRA Cl19 versus Cl19)", x="")
+  ggsave("Figures_MouseCells/TF analysis/LollipopGraph_HIRAvCL19.pdf", plot=Dotplot, width=10, height=10)
+
+plot(Dotplot)
+
+#---------
+Dotplot1 <-ggplot(TF_FlxvCL19_Select, aes(x=reorder(TF, + Mean_TFChange), y=Mean_TFChange, label=p.val_round)) + 
+    geom_point(stat='identity', aes(size= absMean_TFChange, col=p.val))  +
+    scale_color_viridis(option="C", "p.val")+
+    scale_fill_viridis(option="C","p.val")+
+    geom_segment(aes(y = 0, 
+                   x = TF, 
+                   yend = Mean_TFChange,
+                   xend = TF), 
+               color = "black") +
+   scale_size(name="Mean TF Change",range = c(2,16))+
+    geom_text(color="black", size=2) +
+    labs(title="TF analysis: dorothea regulon A",
+        subtitle="Flx versus Cl19",
+        caption="*Threshold: p.val<0.05") + 
+    #ylim(-2.5,2.5) +
+    theme_bw() +
+    coord_flip()+
+    theme(plot.title = element_text(color = "black", size = 12, face = "bold"),
+          plot.subtitle = element_text(color = "black", size=10),
+          plot.caption = element_text(color = "black",size=9, face = "italic", hjust = 2.5))+
+    labs(y="Mean TF Change (Flx versus Cl19)", x="")
+  ggsave("Figures_MouseCells/TF analysis/LollipopGraph_FlxvCL19.pdf", plot=Dotplot1, width=10, height=10)
+  
+plot(Dotplot1)  
+```
+
+
+# Information about packge used and versions 
+```{r}
+sessionInfo()
+```
+
+
