@@ -383,12 +383,49 @@ VolcanoPlot_GSEA(GSEA_Results= GSEA_CL19vsFL,
 
 ### HIRA vs FL
 -Signatures to show (all)\
-Make an overview plot of the GSEA results:
+Make an overview plot of the GSEA results:\
 ```{r, message=FALSE, warning=FALSE}
 VolcanoPlot_GSEA(GSEA_Results= GSEA_HIRAvsFL,
                  Labels= c(),
                  OutputfileName="HIRAvsFL")
 ```
+\
+07.07.2022: Due to the reviewers comments, we decided to also plot the sepcific signatures as done for the comparison of HIRA vs CL19.\
+- Signatures to show: HALLMARK_MYC_TARGETS_V1 and HALLMARK_E2F_TARGETS (up).\
+- From those signatures, highlight the following genes: Kpna2, Mcm5, Smc3, Ppm1d.\
+\
+Individual Signatures:
+```{r, message=FALSE, warning=FALSE}
+#-----------------------------------------------------------------------
+#HALLMARK_MYC_TARGETS_V1
+Signature <- subset(Hallmarks, term == "HALLMARK_MYC_TARGETS_V1")
+Signature_Merge_RNA <- merge(x=Signature,y=HIRAvsFL, by.x="gene", by.y="X", all.x=TRUE)%>%
+  na.omit()
+
+VolcanoPlot_RNAseq(Signature_Merge_RNA=Signature_Merge_RNA, 
+                   Signature=Signature, 
+                   Labels=c("Kpna2", "Mcm5", "Smc3", "Ppm1d"),
+                   OutputPlotName="HALLMARK_MYC_TARGETS_V1", 
+                   NES="1.09", 
+                   p.adj="0.86",
+                   Title="HIRAvsFL")
+
+#-----------------------------------------------------------------------
+#HALLMARK_MYC_TARGETS
+Signature <- subset(Hallmarks, term == "HALLMARK_E2F_TARGETS")
+Signature_Merge_RNA <- merge(x=Signature,y=HIRAvsFL, by.x="gene", by.y="X", all.x=TRUE)%>%
+  na.omit()
+
+VolcanoPlot_RNAseq(Signature_Merge_RNA=Signature_Merge_RNA, 
+                   Signature=Signature, 
+                   Labels=c("Kpna2", "Mcm5", "Smc3", "Ppm1d"),
+                   OutputPlotName="HALLMARK_E2F_TARGETS", 
+                   NES="0.43", 
+                   p.adj="1",
+                   Title="HIRAvsFL")
+
+```
+
 
 # Information about package used and versions 
 ```{r}
